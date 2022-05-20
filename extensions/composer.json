@@ -1,0 +1,7 @@
+{
+    "require": {
+        "google/apiclient": "2.11",
+        "phpoffice/phpspreadsheet": "^1.21",
+        "aws/aws-sdk-php": "^3.209"
+    }
+}

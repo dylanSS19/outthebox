@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronicaCompra xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra.xsd">
+    <Clave>50612012200050385019700100002080000000004100000004</Clave>
+    <CodigoActividad>722003</CodigoActividad>
+    <NumeroConsecutivo>00100002080000000004</NumeroConsecutivo>
+<FechaEmision>2022-01-12T16:45:07-06:00</FechaEmision>
+    <Emisor>
+<Nombre>HERIBERTO CASTRO FERNANDEZ</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<NombreComercial>HERIBERTO CASTRO FERNANDEZ</NombreComercial>
+<Ubicacion>
+<Provincia/>
+<Canton>18</Canton>
+<Distrito>01</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>Local Comercial</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono>
+<CorreoElectronico>secheju@gmail.com</CorreoElectronico>
+    </Emisor>
+ <Receptor>
+<Nombre>"Heriberto"</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>18</Canton>
+<Distrito>01</Distrito>
+<OtrasSenas>Lomas de Ayarco</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>86365851</NumTelefono>
+</Telefono>
+<CorreoElectronico>heri9109@gmail.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>7331100000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>5</Codigo>
+      </CodigoComercial>
+      <Cantidad>1</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"5"</Detalle>
+      <PrecioUnitario>50.00000</PrecioUnitario>
+      <MontoTotal>50.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento Producto</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>50.00000</SubTotal>
+      <MontoTotalLinea>50.00000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>0.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>50.00000</TotalMercanciasExentas>   
+    <TotalGravado>0.00000</TotalGravado>
+    <TotalExento>50.00000</TotalExento>
+    <TotalVenta>50.00000</TotalVenta>
+    <TotalDescuentos>0.00000</TotalDescuentos>
+    <TotalVentaNeta>50.00000</TotalVentaNeta>
+    <TotalImpuesto>0.00000</TotalImpuesto>
+    <TotalComprobante>50.00000</TotalComprobante>
+  </ResumenFactura>   
+      <InformacionReferencia>
+        <TipoDoc>01</TipoDoc>
+        <Numero/>
+        <FechaEmision>T-06:00</FechaEmision>
+        <Codigo/>
+        <Razon>prueba de ingreso</Razon>
+      </InformacionReferencia></FacturaElectronicaCompra>

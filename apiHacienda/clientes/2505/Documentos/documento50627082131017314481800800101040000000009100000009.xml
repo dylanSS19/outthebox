@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TiqueteElectronico xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico.xsd">
+    <Clave>50627082131017314481800800101040000000009100000009</Clave>
+    <CodigoActividad>525905</CodigoActividad>
+    <NumeroConsecutivo>00800101040000000009</NumeroConsecutivo>
+<FechaEmision>2021-08-27T12:20:37-06:00</FechaEmision>
+    <Emisor>
+<Nombre>DIGITAL SAT SOCIEDAD ANONIMA</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>310173144818</Numero>
+</Identificacion>
+<NombreComercial>DIGITAL SAT SOCIEDAD ANONIMA</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>3</Canton>
+<Distrito>08</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>dylans salazar salguero</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>3</Canton>
+<Distrito>08</Distrito>
+<OtrasSenas>LOCAL COMERCIAL</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>00000000</NumTelefono>
+</Telefono>
+<CorreoElectronico>heri9109@gmail.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>8419000000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>10038</Codigo>
+      </CodigoComercial>
+      <Cantidad>1000</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>Recarga Tiempo Aire Electr\u00f3nico</Detalle>
+      <PrecioUnitario>1.00000</PrecioUnitario>
+      <MontoTotal>1000.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>60.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>940.00000</SubTotal>
+      <MontoTotalLinea>940.00000</MontoTotalLinea>
+    </LineaDetalle>
+   <LineaDetalle>
+      <NumeroLinea>2</NumeroLinea>
+      <Codigo>4722200000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>5</Codigo>
+      </CodigoComercial>
+      <Cantidad>1</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>HUA Y7 2019 LTE 32GB ROJO DUALSIM (P)</Detalle>
+      <PrecioUnitario>97345.13000</PrecioUnitario>
+      <MontoTotal>97345.13000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>97345.13000</SubTotal>
+        <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa/>
+        <Monto>12654.86690</Monto>
+        </Impuesto>
+      <MontoTotalLinea>109999.99690</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>97345.13000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>2000.00000</TotalMercanciasExentas>   
+    <TotalGravado>97345.13000</TotalGravado>
+    <TotalExento>2000.00000</TotalExento>
+    <TotalVenta>99345.13000</TotalVenta>
+    <TotalDescuentos>60.00000</TotalDescuentos>
+    <TotalVentaNeta>99285.13000</TotalVentaNeta>
+    <TotalImpuesto>12654.86690</TotalImpuesto>
+    <TotalComprobante>111939.99690</TotalComprobante>
+  </ResumenFactura></TiqueteElectronico>

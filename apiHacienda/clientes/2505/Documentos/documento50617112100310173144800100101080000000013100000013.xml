@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronicaCompra xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronicaCompra.xsd">
+    <Clave>50617112100310173144800100101080000000013100000013</Clave>
+    <CodigoActividad>11103</CodigoActividad>
+    <NumeroConsecutivo>00100101080000000013</NumeroConsecutivo>
+<FechaEmision>2021-11-17T15:46:22-06:00</FechaEmision>
+    <Emisor>
+<Nombre>Heriberto castro fernandez</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<NombreComercial>Heriberto castro fernandez</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>LOCAL COMERCIAL</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono>
+<CorreoElectronico>dsalazar@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+ <Receptor>
+<Nombre>"DIGITAL SAT SOCIEDAD ANONIMA"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>6258500000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>1100</Codigo>
+      </CodigoComercial>
+      <Cantidad>3</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"prueba"</Detalle>
+      <PrecioUnitario>100.00000</PrecioUnitario>
+      <MontoTotal>300.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>15.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>285.00000</SubTotal>
+      <MontoTotalLinea>285.00000</MontoTotalLinea>
+    </LineaDetalle>
+   <LineaDetalle>
+      <NumeroLinea>2</NumeroLinea>
+      <Codigo>6258500000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>1001</Codigo>
+      </CodigoComercial>
+      <Cantidad>2</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"prueba 2"</Detalle>
+      <PrecioUnitario>300.00000</PrecioUnitario>
+      <MontoTotal>600.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>600.00000</SubTotal>
+          <Impuesto>
+          <Codigo>01</Codigo>
+          <CodigoTarifa>07</CodigoTarifa>
+          <Tarifa>8.00000</Tarifa>
+          <Monto>48.00000</Monto>
+          </Impuesto>
+      <MontoTotalLinea>648.00000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>USD</CodigoMoneda>
+<TipoCambio>641.58000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>600.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>300.00000</TotalMercanciasExentas>   
+    <TotalGravado>600.00000</TotalGravado>
+    <TotalExento>300.00000</TotalExento>
+    <TotalVenta>900.00000</TotalVenta>
+    <TotalDescuentos>15.00000</TotalDescuentos>
+    <TotalVentaNeta>885.00000</TotalVentaNeta>
+    <TotalImpuesto>48.00000</TotalImpuesto>
+    <TotalComprobante>933.00000</TotalComprobante>
+  </ResumenFactura></FacturaElectronicaCompra>

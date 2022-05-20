@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NotaCreditoElectronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica.xsd">
+    <Clave>50602092100310173144800800101030000000020100000020</Clave>
+    <CodigoActividad>525905</CodigoActividad>
+    <NumeroConsecutivo>00800101030000000020</NumeroConsecutivo>
+<FechaEmision>2021-09-02T03:19:52-06:00</FechaEmision>
+    <Emisor>
+<Nombre>"DIGITAL SAT SOCIEDAD ANONIMA"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<NombreComercial>"DIGITAL SAT SOCIEDAD ANONIMA"</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>HD SOFTWARE DEVELOPMENT</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>00000000</NumTelefono>
+</Telefono>
+<CorreoElectronico>heri9109@gmail.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>8419000000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>10038</Codigo>
+      </CodigoComercial>
+      <Cantidad>1000</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"Recarga Tiempo Aire Electrónico"</Detalle>
+      <PrecioUnitario>1.00000</PrecioUnitario>
+      <MontoTotal>1000.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>60.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>940.00000</SubTotal>
+      <MontoTotalLinea>940.00000</MontoTotalLinea>
+    </LineaDetalle>
+   <LineaDetalle>
+      <NumeroLinea>2</NumeroLinea>
+      <Codigo>4722200000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>70004519</Codigo>
+      </CodigoComercial>
+      <Cantidad>1</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"PCD PG02B NG NEGRO (P)"</Detalle>
+      <PrecioUnitario>7079.64000</PrecioUnitario>
+      <MontoTotal>7079.64000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>7079.64000</SubTotal>
+        <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa>13.00000</Tarifa>
+        <Monto>920.35320</Monto>
+        </Impuesto>
+      <MontoTotalLinea>7999.99320</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>7079.64000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>1000.00000</TotalMercanciasExentas>   
+    <TotalGravado>7079.64000</TotalGravado>
+    <TotalExento>1000.00000</TotalExento>
+    <TotalVenta>8079.64000</TotalVenta>
+    <TotalDescuentos>60.00000</TotalDescuentos>
+    <TotalVentaNeta>8019.64000</TotalVentaNeta>
+    <TotalImpuesto>920.35320</TotalImpuesto>
+    <TotalComprobante>8939.99320</TotalComprobante>
+  </ResumenFactura>   
+  <InformacionReferencia>
+    <TipoDoc>04</TipoDoc>
+    <Numero>50602092100310173144800800101040000000002100000002</Numero>
+    <FechaEmision>2021-09-02T08:21:09-06:00</FechaEmision>
+    <Codigo>01</Codigo>
+    <Razon>Aplicación Nota de Credito</Razon>
+  </InformacionReferencia><ds:Signature Id="Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><ds:SignedInfo><ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference Id="Reference-f26dca37-b054-04b5-bfeb-7ca27834732b" URI=""><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>JN+6ZHNnA65pH3fMCh8+TgUPL4dxkblG6lyVTcO7ceA=</ds:DigestValue></ds:Reference><ds:Reference Id="ReferenceKeyInfo" URI="#KeyInfoId-Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>3UkhWV9xl6qiYoBUY/fTzs+/WId4RRqsaiqaDoox+F4=</ds:DigestValue></ds:Reference><ds:Reference Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties-Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>xUxHtQ9NsQDymP/IH529tbVzsyaSxMHCZ1BJl9UHNH0=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="SignatureValue-7a8a379c-2c95-1509-4625-b9115722328c">UV89sFXREjLRb1n7H3MkxJVFuMZMZjf6d/z8T3rNxurkVubBIQllwVUS4iJ0ME8SrdPg2kyI27w68rDNttk8ZCaTLlVpDtghjlsnYSmqLoQud0YDTINR52CnynwibvsYb3hZ1r9HNjigBoKU6e6ku7LFqlYDjOEgzs39pzBPr3MAoYTW9Z8heHskS8mjSzRDAr8r6nZEAsq6EanZku4fuicQItkZduRdvLhfEv+UoVlYQwTW4TEPPB9yodhPrcvHc+9TuvpkdF6+LtmQaI/urPSgemcb1B8o4Sg7k4SIhZuIN1Je3WD/Cz7KLHV0BSwlF1zqccJM6vuFGm8ckDlLww==</ds:SignatureValue><ds:KeyInfo Id="KeyInfoId-Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><ds:X509Data><ds:X509Certificate>MIIFMTCCAxmgAwIBAgIGAXfQWourMA0GCSqGSIb3DQEBCwUAMG4xCzAJBgNVBAYTAkNSMSkwJwYDVQQKDCBNSU5JU1RFUklPIERFIEhBQ0lFTkRBIC0gU0FOREJPWDEMMAoGA1UECwwDREdUMSYwJAYDVQQDDB1DQSBQRVJTT05BIEpVUklESUNBIC0gU0FOREJPWDAeFw0yMTAyMjMxOTI1MzBaFw0yMzAyMjMxOTI1MzBaMHgxGTAXBgNVBAUTEENQSi0zLTEwMS03MzE0NDgxCzAJBgNVBAYTAkNSMRkwFwYDVQQKDBBQRVJTT05BIEpVUklESUNBMQwwCgYDVQQLDANDUEoxJTAjBgNVBAMMHERJR0lUQUwgU0FUIFNPQ0lFREFEIEFOT05JTUEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCcxvlVGlrF6iv6NIoLAeO9F0BYO06tdIxEWUnWxRUKKBu/H55mm9tJZzvBOOM9d6qNNsRNAK8mULin8wTaz1tA4bI4Ssjh/yYl8FWL/rv915tfO6bSqS/FMJu6I23TwlWcEGqihcLQbxF20tuflVfbUI58YisMEPqPrji+OY4phR+l5fp2e2ETrObTy+jpTHHEZzQIiIGtjaV+0BzgrzBY3bUAP4dNyzJCyW4m+bj5hwT7A2CwKqWlYVxryXMHCCdNAHaGLVDJh6EVUIvP7L00pzDNaAPY7BhWH/Ha7KkwlOd3xJhMa0q+Qg9dujCEuDNzitudRxGUKJFmR13rkJadAgMBAAGjgcowgccwHwYDVR0jBBgwFoAUrChF+C+dSF8sHwCQ6zLFowdTgOEwHQYDVR0OBBYEFK22IjarTI1oQiGt1oUfWafW2gh+MAsGA1UdDwQEAwIGwDATBgNVHSUEDDAKBggrBgEFBQcDBDBjBggrBgEFBQcBAQRXMFUwUwYIKwYBBQUHMAKGR2h0dHBzOi8vcGtpLmNvbXByb2JhbnRlc2VsZWN0cm9uaWNvcy5nby5jci9zdGFnL2ludGVybWVkaWF0ZS1wai1wZW0uY3J0MA0GCSqGSIb3DQEBCwUAA4ICAQAUdfanjiSIAmD5cBwP40YGLz02mHdY7XTTXurXmgPQe78Zyuks8mdRasdPR/DWFNb3Cj6rD6cQCsigcBxPQwgS1cAAq2Nl/rukVV7nVB2nI8Jcta1qEFL6C9hYm3rW0FeniP5hMSI/t+l6n+QsmknrSAyNIL0esEwlUTmbF0OFHxgUyTio65FcRQoWqUEF3vK9Q6q8Ey/rtr+L/I5W4ruQh6zqohJl0amb4IZDcs5A4EDlaaFifBBSmwhxHEidpD4IKT8Bz92FJJ8cF3nIALWzXNhYEOA/RuuBoDKmjBzuJGGzjhg4DXf5X+LUyP1ZpcKMdJH5feJhyc6pvlclDMgrB0j/vN+QW5Q3Wk+WxEOSiq8c6hjED6i5jjF3+Gbx4lp7CPy/mxxPAOvpOViZvJhT8zOKX+xqP1Ku3ucfjOL+kKtyeeorZ0gCR84ZxASUWX5UADzWM70+7H60MHuty/ZTpqW2yi3bCuP70oSxEuWCNJSnZxc60gAc0H+LGSqJgPPoG5OYiKzhsuRXLj5yWgMYelA162qUE8jRFbbnTnnnebHP3A0SrNrsliS1OPkbu0vLftV5RPyMSUrAy5QRh2KNlpHsrMA3aMvvgO5ZPKFZTHkkGvJdXCds6jBceq1A9x1OakAFSHyCRphWcCtpufvq0FfD0SQb0OVFe0dzisXsQA==</ds:X509Certificate></ds:X509Data><ds:KeyValue><ds:RSAKeyValue><ds:Modulus>nMb5VRpaxeor+jSKCwHjvRdAWDtOrXSMRFlJ1sUVCigbvx+eZpvbSWc7wTjjPXeqjTbETQCvJlC4p/ME2s9bQOGyOErI4f8mJfBVi/67/debXzum0qkvxTCbuiNt08JVnBBqooXC0G8RdtLbn5VX21COfGIrDBD6j644vjmOKYUfpeX6dnthE6zm08vo6UxxxGc0CIiBrY2lftAc4K8wWN21AD+HTcsyQsluJvm4+YcE+wNgsCqlpWFca8lzBwgnTQB2hi1QyYehFVCLz+y9NKcwzWgD2OwYVh/x2uypMJTnd8SYTGtKvkIPXbowhLgzc4rbnUcRlCiRZkdd65CWnQ==</ds:Modulus><ds:Exponent>AQAB</ds:Exponent></ds:RSAKeyValue></ds:KeyValue></ds:KeyInfo><ds:Object Id="XadesObjectId-b19e7b3e-5509-e0e0-88f7-1379693af68a"><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Id="QualifyingProperties-b7b02740-525c-cb8d-21d5-a6e0abe3986c" Target="#Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><xades:SignedProperties Id="SignedProperties-Signature-40910ddc-9f1d-c8ed-31b8-691cc8aadf6f"><xades:SignedSignatureProperties><xades:SigningTime>2021-09-02T03:19:52-06:00</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>JERWWpS1UEiXRnE7qINQ6FSI7bYBsPAiNwGTIYU/1tg=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>CN=CA PERSONA JURIDICA - SANDBOX, OU=DGT, O=MINISTERIO DE HACIENDA - SANDBOX, C=CR</ds:X509IssuerName><ds:X509SerialNumber>1614108330923</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate><xades:SignaturePolicyIdentifier><xades:SignaturePolicyId><xades:SigPolicyId><xades:Identifier>https://www.hacienda.go.cr/ATV/ComprobanteElectronico/docs/esquemas/2016/v4.3/ResolucionComprobantesElectronicosDGT-R-48-2016_4.3.pdf</xades:Identifier><xades:Description/></xades:SigPolicyId><xades:SigPolicyHash><ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><ds:DigestValue>3gQCr0HYSdoxi0ZaRaJ4qs3mHfI=</ds:DigestValue></xades:SigPolicyHash></xades:SignaturePolicyId></xades:SignaturePolicyIdentifier></xades:SignedSignatureProperties><xades:SignedDataObjectProperties><xades:DataObjectFormat ObjectReference="#Reference-f26dca37-b054-04b5-bfeb-7ca27834732b"><xades:MimeType>text/xml</xades:MimeType><xades:Encoding>UTF-8</xades:Encoding></xades:DataObjectFormat></xades:SignedDataObjectProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></NotaCreditoElectronica>

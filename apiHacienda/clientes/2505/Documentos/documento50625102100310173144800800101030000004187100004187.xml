@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NotaCreditoElectronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/notaCreditoElectronica.xsd">
+    <Clave>50625102100310173144800800101030000004187100004187</Clave>
+    <CodigoActividad>525905</CodigoActividad>
+    <NumeroConsecutivo>00800101030000004187</NumeroConsecutivo>
+<FechaEmision>2021-10-25T15:19:00-06:00</FechaEmision>
+    <Emisor>
+<Nombre>"DIGITAL SAT SOCIEDAD ANONIMA"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<NombreComercial>"DIGITAL SAT SOCIEDAD ANONIMA"</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>"LIBRERIA Y BAZAR CAMACHO"</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>602420382</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<OtrasSenas>LOCAL COMERCIAL</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>00000000</NumTelefono>
+</Telefono>
+<CorreoElectronico>CAMACHOFRAN@GMAIL.COM</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>0.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>0.00000</TotalMercanciasExentas>   
+    <TotalGravado>0.00000</TotalGravado>
+    <TotalExento>0.00000</TotalExento>
+    <TotalVenta>0.00000</TotalVenta>
+    <TotalDescuentos>0.00000</TotalDescuentos>
+    <TotalVentaNeta>0.00000</TotalVentaNeta>
+    <TotalImpuesto>0.00000</TotalImpuesto>
+    <TotalComprobante>0.00000</TotalComprobante>
+  </ResumenFactura>   
+  <InformacionReferencia>
+    <TipoDoc>04</TipoDoc>
+    <Numero>97664439997636670000</Numero>
+    <FechaEmision>2021-10-25T08:21:10-06:00</FechaEmision>
+    <Codigo>01</Codigo>
+    <Razon>Aplicación Nota de Credito</Razon>
+  </InformacionReferencia></NotaCreditoElectronica>

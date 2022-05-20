@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TiqueteElectronico xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico.xsd">
+    <Clave>50603112100310173144800800101040000040812100040812</Clave>
+    <CodigoActividad>525905</CodigoActividad>
+    <NumeroConsecutivo>00800101040000040812</NumeroConsecutivo>
+<FechaEmision>2021-11-03T12:53:52-06:00</FechaEmision>
+    <Emisor>
+<Nombre>"DIGITAL SAT SOCIEDAD ANONIMA"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<NombreComercial>"DIGITAL SAT SOCIEDAD ANONIMA"</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>"Mundo cel Turrucares 1"</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>206750521</Numero>
+</Identificacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono>
+<CorreoElectronico>eve93093@gmail.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>8419000000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>10038</Codigo>
+      </CodigoComercial>
+      <Cantidad>10639</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"Recarga Tiempo Aire Electrónico"</Detalle>
+      <PrecioUnitario>1.00000</PrecioUnitario>
+      <MontoTotal>10639.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>638.34000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>10000.66000</SubTotal>
+      <MontoTotalLinea>10000.66000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>0.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>10639.00000</TotalMercanciasExentas>   
+    <TotalGravado>0.00000</TotalGravado>
+    <TotalExento>10639.00000</TotalExento>
+    <TotalVenta>10639.00000</TotalVenta>
+    <TotalDescuentos>638.34000</TotalDescuentos>
+    <TotalVentaNeta>10000.66000</TotalVentaNeta>
+    <TotalImpuesto>0.00000</TotalImpuesto>
+    <TotalComprobante>10000.66000</TotalComprobante>
+  </ResumenFactura></TiqueteElectronico>

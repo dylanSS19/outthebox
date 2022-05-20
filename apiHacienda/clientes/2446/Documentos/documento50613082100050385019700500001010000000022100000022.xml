@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica.xsd">
+    <Clave>50613082100050385019700500001010000000022100000022</Clave>
+    <CodigoActividad>722003</CodigoActividad>
+    <NumeroConsecutivo>00500001010000000022</NumeroConsecutivo>
+<FechaEmision>2021-08-13T09:36:55-06:00</FechaEmision>
+    <Emisor>
+<Nombre>HERIBERTO CASTRO FERNANDEZ</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>503850197</Numero>
+</Identificacion>
+<NombreComercial>HERIBERTO CASTRO FERNANDEZ</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>18</Canton>
+<Distrito>01</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>Curridabat</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>86335806</NumTelefono>
+</Telefono>
+<CorreoElectronico>heri9109@gmail.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>dylans salazar salguero</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>117460435</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>01</Distrito>
+<OtrasSenas>calle sin salida</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>86365851</NumTelefono>
+</Telefono>
+<CorreoElectronico>dylan1999-salguero@hotmail.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>02</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>8314300000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>3212454897</Codigo>
+      </CodigoComercial>
+      <Cantidad>1</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>patitos</Detalle>
+      <PrecioUnitario>500.00000</PrecioUnitario>
+      <MontoTotal>500.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>100.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>400.00000</SubTotal>
+        <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa>13.00000</Tarifa>
+        <Monto>52.00000</Monto>
+        </Impuesto>
+      <MontoTotalLinea>452.00000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>500.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>0.00000</TotalMercanciasExentas>   
+    <TotalGravado>500.00000</TotalGravado>
+    <TotalExento>0.00000</TotalExento>
+    <TotalVenta>500.00000</TotalVenta>
+    <TotalDescuentos>100.00000</TotalDescuentos>
+    <TotalVentaNeta>400.00000</TotalVentaNeta>
+    <TotalImpuesto>52.00000</TotalImpuesto>
+    <TotalComprobante>452.00000</TotalComprobante>
+  </ResumenFactura></FacturaElectronica>

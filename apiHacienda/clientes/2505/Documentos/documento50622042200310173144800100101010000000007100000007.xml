@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica.xsd">
+    <Clave>50622042200310173144800100101010000000007100000007</Clave>
+    <CodigoActividad>453011</CodigoActividad>
+    <NumeroConsecutivo>00100101010000000007</NumeroConsecutivo>
+<FechaEmision>2022-04-22T10:00:15-06:00</FechaEmision>
+    <Emisor>
+<Nombre>DIGITAL SAT SOCIEDAD ANONIMA</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<NombreComercial>DIGITAL SAT SOCIEDAD ANONIMA</NombreComercial>
+<Ubicacion>
+<Provincia>3</Provincia>
+<Canton>03</Canton>
+<Distrito>08</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>facturas@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+ <Receptor>
+<Nombre>ZHANG WEICAI</Nombre>
+<Identificacion>
+<Tipo>03</Tipo>
+<Numero>115600381918</Numero>
+</Identificacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono></Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>1540099009900</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>12116141</Codigo>
+      </CodigoComercial>
+      <Cantidad>4</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>TIDY CATS 10 LB (24\/7 Perfomance)</Detalle>
+      <PrecioUnitario>3302.00000</PrecioUnitario>
+      <MontoTotal>13208.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>13208.00000</SubTotal>
+        <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa>13.00000</Tarifa>
+        <Monto>1717.04000</Monto>
+        </Impuesto>
+      <MontoTotalLinea>14925.04000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>13208.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>0.00000</TotalMercanciasExentas>   
+    <TotalGravado>13208.00000</TotalGravado>
+    <TotalExento>0.00000</TotalExento>
+    <TotalVenta>13208.00000</TotalVenta>
+    <TotalDescuentos>0.00000</TotalDescuentos>
+    <TotalVentaNeta>13208.00000</TotalVentaNeta>
+    <TotalImpuesto>1717.04000</TotalImpuesto>
+    <TotalComprobante>14925.04000</TotalComprobante>
+  </ResumenFactura></FacturaElectronica>

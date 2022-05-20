@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FacturaElectronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica.xsd">
+    <Clave>50630112100310172007800100002010000000004100000004</Clave>
+    <CodigoActividad>749101</CodigoActividad>
+    <NumeroConsecutivo>00100002010000000004</NumeroConsecutivo>
+<FechaEmision>2021-11-30T12:07:54-06:00</FechaEmision>
+    <Emisor>
+<Nombre>"ALL SALES S.A"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101720078</Numero>
+</Identificacion>
+<NombreComercial>"ALL SALES S.A"</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>03</Canton>
+<Distrito>05</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>"DIGITAL SAT S.A"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<Ubicacion>
+<Provincia>3</Provincia>
+<Canton>03</Canton>
+<Distrito>05</Distrito>
+<OtrasSenas>LOCAL COMERCIAL</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono>
+<CorreoElectronico>facturas@digitalsat-cr.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>4526100009900</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>003</Codigo>
+      </CodigoComercial>
+      <Cantidad>150</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"Periféricos"</Detalle>
+      <PrecioUnitario>2685.20940</PrecioUnitario>
+      <MontoTotal>402781.41000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>0.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>402781.41000</SubTotal>
+        <Impuesto>
+        <Codigo>01</Codigo>
+        <CodigoTarifa>08</CodigoTarifa>
+        <Tarifa>13.00000</Tarifa>
+        <Monto>52361.58330</Monto>
+        </Impuesto>
+      <MontoTotalLinea>455142.99330</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>402781.41000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>0.00000</TotalMercanciasExentas>   
+    <TotalGravado>402781.41000</TotalGravado>
+    <TotalExento>0.00000</TotalExento>
+    <TotalVenta>402781.41000</TotalVenta>
+    <TotalDescuentos>0.00000</TotalDescuentos>
+    <TotalVentaNeta>402781.41000</TotalVentaNeta>
+    <TotalImpuesto>52361.58330</TotalImpuesto>
+    <TotalComprobante>455142.99330</TotalComprobante>
+  </ResumenFactura></FacturaElectronica>

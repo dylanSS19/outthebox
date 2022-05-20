@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TiqueteElectronico xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico" xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/tiqueteElectronico.xsd">
+    <Clave>50604102100310173144800800101040000034708100034708</Clave>
+    <CodigoActividad>525905</CodigoActividad>
+    <NumeroConsecutivo>00800101040000034708</NumeroConsecutivo>
+<FechaEmision>2021-10-04T11:17:21-06:00</FechaEmision>
+    <Emisor>
+<Nombre>"DIGITAL SAT SOCIEDAD ANONIMA"</Nombre>
+<Identificacion>
+<Tipo>02</Tipo>
+<Numero>3101731448</Numero>
+</Identificacion>
+<NombreComercial>"DIGITAL SAT SOCIEDAD ANONIMA"</NombreComercial>
+<Ubicacion>
+<Provincia>1</Provincia>
+<Canton>01</Canton>
+<Distrito>03</Distrito>
+<Barrio>01</Barrio>
+<OtrasSenas>SAN JOSE, DESAMPARADOS, RIO AZUL, BODEGAS PYMES, BODEGA # 07</OtrasSenas>
+</Ubicacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>40015731</NumTelefono>
+</Telefono>
+<CorreoElectronico>jlam@digitalsat-cr.com</CorreoElectronico>
+    </Emisor>
+    <Receptor>
+<Nombre>"HERBAVI DEL PACIFICO S.A"</Nombre>
+<Identificacion>
+<Tipo>01</Tipo>
+<Numero>111111111</Numero>
+</Identificacion>
+<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>11111111</NumTelefono>
+</Telefono>
+<CorreoElectronico>a@a.com</CorreoElectronico>
+ </Receptor>
+  <CondicionVenta>01</CondicionVenta>
+  <PlazoCredito>0</PlazoCredito>
+  <MedioPago>01</MedioPago>
+  <DetalleServicio>
+   <LineaDetalle>
+      <NumeroLinea>1</NumeroLinea>
+      <Codigo>8419000000000</Codigo>
+      <CodigoComercial>
+      <Tipo>01</Tipo>
+      <Codigo>10005</Codigo>
+      </CodigoComercial>
+      <Cantidad>5</Cantidad>
+      <UnidadMedida>Unid</UnidadMedida>
+      <Detalle>"Tarjeta Prepago 1000 "</Detalle>
+      <PrecioUnitario>1000.00000</PrecioUnitario>
+      <MontoTotal>5000.00000</MontoTotal>
+      <Descuento>
+        <MontoDescuento>300.00000</MontoDescuento>
+        <NaturalezaDescuento>Descuento</NaturalezaDescuento>
+      </Descuento>
+      <SubTotal>4700.00000</SubTotal>
+      <MontoTotalLinea>4700.00000</MontoTotalLinea>
+    </LineaDetalle>
+  </DetalleServicio>
+  <ResumenFactura>
+    <CodigoTipoMoneda>
+<CodigoMoneda>CRC</CodigoMoneda>
+<TipoCambio>1.00000</TipoCambio>
+</CodigoTipoMoneda>
+    <TotalServGravados>0.00000</TotalServGravados>
+    <TotalServExentos>0.00000</TotalServExentos>
+    <TotalMercanciasGravadas>0.00000</TotalMercanciasGravadas>
+    <TotalMercanciasExentas>5000.00000</TotalMercanciasExentas>   
+    <TotalGravado>0.00000</TotalGravado>
+    <TotalExento>5000.00000</TotalExento>
+    <TotalVenta>5000.00000</TotalVenta>
+    <TotalDescuentos>300.00000</TotalDescuentos>
+    <TotalVentaNeta>4700.00000</TotalVentaNeta>
+    <TotalImpuesto>0.00000</TotalImpuesto>
+    <TotalComprobante>4700.00000</TotalComprobante>
+  </ResumenFactura></TiqueteElectronico>
