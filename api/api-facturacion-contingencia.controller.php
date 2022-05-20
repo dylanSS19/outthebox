@@ -1,19 +1,9 @@
 <?php
 
-    
-  
 require_once ("../extensions/firmarXML/firmar.php");
 require_once  ("../models/api-facturacion-pruebas.model.php");
 // require_once  ("../extensions/tcpdf/pdf/comprobante_factura.php");
 require_once  ("../extensions/factura/generaFactura.php");
-
-use  PHPMailer\PHPMailer\PHPMailer ;
-use  PHPMailer\PHPMailer\Exception ;
-
-
-require  '../extensions/PHPMailer-master/src/Exception.php' ;
-require  '../extensions/PHPMailer-master/src/PHPMailer.php' ;
-require  '../extensions/PHPMailer-master/src/SMTP.php' ;
 
 header('Acceess-Control-Allow-Origin: *');
 
@@ -62,30 +52,6 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
       $datosUsario = api_facturacioncontroller::cargarDatosUsuario($contrasena, $cedula);
 
-      // if($datosUsario["pin_p12_prueba"] == ""){
-
-      //   header("HTTP/1.1 403 Forbidden");
-
-      //   echo '{"success": "false", "reason": "Datos del cliente mal configurados (pin .p12), validar información", "error":"P12"}';
-
-      // exit();
-      // }
-
-          //   $user = $datosUsario["usuario_token_prueba"];
-          //   $contrasena = $datosUsario["contrasena_token_prueba"]; 
-
-          //  $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
-          //  $token = json_decode($token);
-    
-          //  if(!array_key_exists('access_token', $token)){
-
-          //           header("HTTP/1.1 403 Forbidden");
-
-          //       echo '{"success": "false", "reason": "CREDENCIALES DE TOKEN INCORRECTAS"}';
-
-          //   exit();
-          //  }
-
 
     date_default_timezone_set('America/Costa_Rica');
 
@@ -94,16 +60,11 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
     $fecha_factura = ''.$fecha_emision_factura.'T'.$hora_emision_factura.'-06:00';
       $fecha_factura_2 = ''.$fecha_emision_factura.'T'.$hora_emision_factura.'-0600';
+
       /*=============================================
       =  GENERAR EL XML PARA FIRMAR                =
        =============================================*/
       $xml_factura = api_facturacioncontroller::GenerarXML($data,$fecha_factura,$datosUsario["idtbl_clientes"]);
-
-
-        /*=============================================
-        =              vamos por aqui                =
-        =============================================*/
-
           
      $xml_capturar = $xml_factura;
 
@@ -141,62 +102,13 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
 
 }
 
-
-      /*=============================================
-      =  RUTA DEL ARCHIVO P1, CONTRASEÑA Y ARCHIVO, SE FIRMA EL XML =
-       =============================================*/
-
-      // $pfx = $datosUsario["ruta_12_prueba"];
-      // $pin = $datosUsario["pin_p12_prueba"];
-      // $xml = $xml_factura;
-      // $xml = '../apiHacienda/clientes/Heribertocastro/Documentos/documento'.$clave.'.xml';
-      // $ruta = "dfhjdfhj";
         
-        //  $archivo_formado = api_facturacion2controller::firmar($pfx, $pin, $xml, $ruta,$fecha_factura);
- 
-
-    // if (base64_encode(base64_decode($archivo_formado, true)) === $archivo_formado){
-        
-    // } else {
-          
-    //   api_facturacioncontroller::EliminarUltConsecutivo($clave);
-    //   api_facturacioncontroller::EliminarDatosFactura($clave);
-
-    //   header("HTTP/1.1 403 Forbidden");
-
-    //   echo '{"success": "false", "reason": "Archivo .P12 no valido, intente nuevamente", "error":"P12"}';
-
-
-    //   exit();
-
-    // }
-    
-
-       /*===========================================F==
-         = USUARIO Y CONTRASEÑA PARA GENERAR TOQUEN DE 
-        AUTENTIFUCACION ANTE HACIENDA               =
-        =============================================*/
-
-        $user = $datosUsario["usuario_token_prueba"];
-        $contrasena = $datosUsario["contrasena_token_prueba"]; 
-
-          //  $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
-
-          //  $token = json_decode($token);
-
-          //  $token =  $token->{'access_token'};
-          
-       /*=============================================
-          =        ENVIAR XML FIRMADO A HACIENDA    =
-        =============================================*/
-
-//  $respuesta_hacienda = api_facturacioncontroller::EnviarApiFacturas($token, $archivo_formado, $clave, $cedula_receptor, $fecha_factura_2, $tipo_cedula_emisor, $cedula_emisor);
-
-//  $guardarXmlF = api_facturacioncontroller::GuardarXmlFirmado($clave, $archivo_formado);
+  /*=============================================
+  =             RESPUESTA DEL API              =
+  =============================================*/
  
         header("HTTP/1.1 200 OK");
-echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'"}';
-
+    echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'"}';
 
       }else{
 
@@ -289,35 +201,24 @@ public function GenerarToken($user, $contrasena){
      // $data = "client_id=api-prod&username=".$user."&password=".urlencode($contrasena)."&grant_type=password";
 
      $data = "client_id=api-stag&username=".$user."&password=".urlencode($contrasena)."&grant_type=password"; 
-    // $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut/protocol/openid-connect/token"); 
-   $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
-      //$ch = curl_init("https://posfacturar.com/pos_digitalsat/public/api/v5/sale/getBillSearch");
+    
+     $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
 
-// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-// curl_setopt($ch, CURLOPT_USERPWD, "163928b0-fc2b-485d-9cc9-de6c3b853d5f:ba58b332fad04e0"); 
-//Your credentials goes here
-
-          //URL de Produccion http://wcf.facturoporti.com.mx/Timbrado/Servicios.svc/ApiTimbrarCFDI
-         //curl_setopt($ch, CURLOPT_URL, "http://posfacturar.com/pos_digitalsat/public/api/v5/sale/add");
-        //a true, obtendremos una respuesta de la url, en otro caso,
-       //true si es correcto, false si no lo es
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // Se define el tipo de metodo de envio de datos
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'Content-Type: application/x-www-form-urlencoded; charset=utf-8'));
-        //establecemos el verbo http que queremos utilizar para la petición
        
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        //enviamos el array data
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-        //obtenemos la respuesta
+     
         $response = curl_exec($ch);
-        // Se cierra el recurso CURL y se liberan los recursos del sistema
+    
     $response_info = curl_getinfo($ch);
 
-         // print_r(curl_getinfo($ch));
+
 
         curl_close($ch);
 
@@ -342,9 +243,6 @@ $json_factura = '{
   "comprobanteXml":"'.$archivo_formado.'"
 }';
 
-
-
-    
    $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion"); //ambiente sandbox
 
     // $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion/v1/recepcion");
@@ -564,10 +462,6 @@ if($datosUsario["tipo_personeria"] == "Fisico"){
 }
 
 
-// echo '<pre>'; print_r($tipopersoneria); echo '</pre>';
-
-// exist
-
 
 $cedula_formateada = api_facturacioncontroller::generarCedula12Digitos ($datosUsario["cedula"]);
 $año = date('y');
@@ -670,17 +564,10 @@ $razon="";
 =============================================*/
 
 $IdFactura = api_facturacioncontroller::GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_creacion_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia,$mediopago, $api, $razon, $comentarioFact);
-// echo $IdFactura;
-
-// exit();
-
 
 
 $insertConse = api_facturacioncontroller::Updateultimoconsecutivo($id_empresa, $IdFactura, $ramdon);
 
-
-// exit();
-// $validarUltConse = api_facturacionModel::MdlValUltimoConsecutivo($id_factura, $random);
 
 $nomUser = str_replace ( '"' , '' ,json_encode($datosUsario["nombre"], JSON_UNESCAPED_UNICODE));
 $nomUser = str_replace ( '&' , '&amp;' ,$nomUser);
@@ -728,53 +615,52 @@ $archivo_XML .= '<'.$tipo_documento.' '.$header.'
  <Receptor>
 <Nombre>'.$nomClient.'</Nombre>';
 
-if($tipo_cedula == "" || $tipo_cedula == "Pasaporte" || $tipo_cedula == "pasaporte"){
+    if($tipo_cedula == "" || $tipo_cedula == "Pasaporte" || $tipo_cedula == "pasaporte"){
 
-// $archivo_XML .='
-// <Identificacion>
-// <Numero>'.$cedula.'</Numero>
-// </Identificacion>'."\n";
+    // $archivo_XML .='
+    // <Identificacion>
+    // <Numero>'.$cedula.'</Numero>
+    // </Identificacion>'."\n";
 
-}else{
+    }else{
 
-$archivo_XML .='
-<Identificacion>
-<Tipo>'.$tipo_cedula.'</Tipo>
-<Numero>'.$cedula.'</Numero>
-</Identificacion>'."\n";
+    $archivo_XML .='
+    <Identificacion>
+    <Tipo>'.$tipo_cedula.'</Tipo>
+    <Numero>'.$cedula.'</Numero>
+    </Identificacion>'."\n";
 
-}
-
-
-if($provincia == "" || $provincia == 0){
+    }
 
 
-
-}else{
-
-$archivo_XML .= '<Ubicacion>
-<Provincia>'.$provincia.'</Provincia>
-<Canton>'.$canton.'</Canton>
-<Distrito>'.$distrito.'</Distrito>
-<OtrasSenas>'.$senas.'</OtrasSenas>
-</Ubicacion>'."\n";
-
-}
-
-$archivo_XML .= '<Telefono>
-<CodigoPais>506</CodigoPais>
-<NumTelefono>'.$telefono.'</NumTelefono>
-</Telefono>';
-
-if($correo == "" || $correo == 0){
+  if($provincia == "" || $provincia == 0){
 
 
-}else{
+  }else{
 
-  $archivo_XML .= '<CorreoElectronico>'.$correo.'</CorreoElectronico>';
+  $archivo_XML .= '<Ubicacion>
+  <Provincia>'.$provincia.'</Provincia>
+  <Canton>'.$canton.'</Canton>
+  <Distrito>'.$distrito.'</Distrito>
+  <OtrasSenas>'.$senas.'</OtrasSenas>
+  </Ubicacion>'."\n";
 
-}
-$archivo_XML .='</Receptor>
+  }
+
+  $archivo_XML .= '<Telefono>
+  <CodigoPais>506</CodigoPais>
+  <NumTelefono>'.$telefono.'</NumTelefono>
+  </Telefono>';
+
+  if($correo == "" || $correo == 0){
+
+
+  }else{
+
+    $archivo_XML .= '<CorreoElectronico>'.$correo.'</CorreoElectronico>';
+
+  }
+  $archivo_XML .='</Receptor>
   <CondicionVenta>'.$condicionVenta.'</CondicionVenta>
   <PlazoCredito>0</PlazoCredito>';
 
@@ -785,8 +671,6 @@ $archivo_XML .='</Receptor>
     }
 
   }
-
-
 
   $archivo_XML .=  '
   <DetalleServicio>'."\n";
@@ -826,8 +710,6 @@ $medidas = api_facturacioncontroller::cargarUidadMedida();
 =============================================*/
 
 foreach ($medidas as $key => $value) {
-
-
 
 array_push($unidadMedida, $value[1]);
 
@@ -1001,12 +883,11 @@ if(str_replace ( '"' , '' ,$value["costo"]) != ""){
 
 }
 
-
+ 
 $DetalleFactura = api_facturacioncontroller::GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto,$cosTasaImp, $unidadM,$categoria);
 
 
 $contador = $contador  + 1;
-
 
 }/* FIN DEL METODO QUE RECORRE EL DETALLE DE LAS FACTURAS */
 
