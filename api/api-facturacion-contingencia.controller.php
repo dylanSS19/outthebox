@@ -480,8 +480,6 @@ $clvRefencia = "";
 }
 
 
-
-
 if($condicionVenta == "02"){
 
 $plazoCredito = '<PlazoCredito>'.$plazo.'</PlazoCredito>';
@@ -1123,8 +1121,6 @@ return $archivo_XML;
 
 
 }
-
-
 
     public function getRandomHex($num_bytes=4) {
 
