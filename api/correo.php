@@ -26,7 +26,7 @@ require  './PHPMailer-master/src/SMTP.php';
                 $mail->Host = 'ssl://mail.outthebox-cr.com';                    //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                 $mail->Username   = 'facturacion@outthebox-cr.com';                     //SMTP username
-                $mail->Password   = 'Facturacion2021*';                               //SMTP password
+                $mail->Password   = ':Az*NdbpLQK!,8M,{4S%fN';                               //SMTP password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
                 $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = 
                 $mail->setFrom('facturacion@outthebox-cr.com');  

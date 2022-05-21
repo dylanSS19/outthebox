@@ -1,23 +1,31 @@
 <?php
 
+    
+  
 require_once ("../extensions/firmarXML/firmar.php");
 require_once  ("../models/api-facturacion-pruebas.model.php");
 // require_once  ("../extensions/tcpdf/pdf/comprobante_factura.php");
 require_once  ("../extensions/factura/generaFactura.php");
+
+use  PHPMailer\PHPMailer\PHPMailer ;
+use  PHPMailer\PHPMailer\Exception ;
+
+
+require  '../extensions/PHPMailer-master/src/Exception.php' ;
+require  '../extensions/PHPMailer-master/src/PHPMailer.php' ;
+require  '../extensions/PHPMailer-master/src/SMTP.php' ;
 
 header('Acceess-Control-Allow-Origin: *');
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
   case 'GET':
-     
- 
-    break;
 
+    break;
 
   case 'PUT':
     
- 
+
     break;
 
     
@@ -52,6 +60,31 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
       $datosUsario = api_facturacioncontroller::cargarDatosUsuario($contrasena, $cedula);
 
+      if($datosUsario["pin_p12_prueba"] == ""){
+
+        header("HTTP/1.1 403 Forbidden");
+
+        echo '{"success": "false", "reason": "Datos del cliente mal configurados (pin .p12), validar información", "error":"P12"}';
+
+      exit();
+      }
+
+
+            $user = $datosUsario["usuario_token_prueba"];
+            $contrasena = $datosUsario["contrasena_token_prueba"]; 
+
+           $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
+           $token = json_decode($token);
+    
+           if(!array_key_exists('access_token', $token)){
+
+                    header("HTTP/1.1 403 Forbidden");
+
+                echo '{"success": "false", "reason": "CREDENCIALES DE TOKEN INCORRECTAS"}';
+
+            exit();
+           }
+
 
     date_default_timezone_set('America/Costa_Rica');
 
@@ -60,11 +93,11 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
     $fecha_factura = ''.$fecha_emision_factura.'T'.$hora_emision_factura.'-06:00';
       $fecha_factura_2 = ''.$fecha_emision_factura.'T'.$hora_emision_factura.'-0600';
-
       /*=============================================
       =  GENERAR EL XML PARA FIRMAR                =
        =============================================*/
       $xml_factura = api_facturacioncontroller::GenerarXML($data,$fecha_factura,$datosUsario["idtbl_clientes"]);
+
           
      $xml_capturar = $xml_factura;
 
@@ -78,34 +111,133 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
        
         xml_parser_free($xmlparser);
 
-  $tipo_Cedula_receptor = $data["fileContent"]["datosReceptor"]["tipoCedula"];
+     
+//       echo '<pre>'; print_r($values); echo '</pre>';
+      
+// exit();
 
-  if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo_Cedula_receptor == "pasaporte"){
+// if(isset($values[49]["value"])){
 
-        $clave = $values[1]["value"];
-        $consecutivo = $values[5]["value"];
-        $cedula_receptor = $values[49]["value"];
-        $tipo_cedula_emisor = $values[13]["value"];
-        $cedula_emisor = $values[15]["value"];
+// $tipo_cedula_receptor = "Pasaporte";
 
-  }else{
+// }else{
 
-        $clave = $values[1]["value"];
-        $consecutivo = $values[5]["value"];
-        $cedula_receptor = $values[51]["value"];
-        $tipo_cedula_emisor = $values[13]["value"];
-        $cedula_emisor = $values[15]["value"];
+// $tipo_cedula_receptor = $values[49]["value"];
+
+// }
+
+$tipo_Cedula_receptor = $data["fileContent"]["datosReceptor"]["tipoCedula"];
+
+if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo_Cedula_receptor == "pasaporte"){
 
 
-  }
+      $clave = $values[1]["value"];
+      $consecutivo = $values[5]["value"];
+      $cedula_receptor = $values[49]["value"];
+      $tipo_cedula_emisor = $values[13]["value"];
+      $cedula_emisor = $values[15]["value"];
 
+}else{
+
+      $clave = $values[1]["value"];
+      $consecutivo = $values[5]["value"];
+      $cedula_receptor = $values[51]["value"];
+      $tipo_cedula_emisor = $values[13]["value"];
+      $cedula_emisor = $values[15]["value"];
+
+
+}
+
+
+
+
+      /*=============================================
+      =  RUTA DEL ARCHIVO P1, CONTRASEÑA Y ARCHIVO, SE FIRMA EL XML =
+       =============================================*/
+
+      $pfx = $datosUsario["ruta_12_prueba"];
+      $pin = $datosUsario["pin_p12_prueba"];
+      $xml = $xml_factura;
+      // $xml = '../apiHacienda/clientes/Heribertocastro/Documentos/documento'.$clave.'.xml';
+      $ruta = "dfhjdfhj";
         
-  /*=============================================
-  =             RESPUESTA DEL API              =
-  =============================================*/
+         $archivo_formado = api_facturacion2controller::firmar($pfx, $pin, $xml, $ruta,$fecha_factura);
+ 
+      
+
+
+    if (base64_encode(base64_decode($archivo_formado, true)) === $archivo_formado){
+        
+    } else {
+          
+      api_facturacioncontroller::EliminarUltConsecutivo($clave);
+      api_facturacioncontroller::EliminarDatosFactura($clave);
+
+      header("HTTP/1.1 403 Forbidden");
+
+      echo '{"success": "false", "reason": "Archivo .P12 no valido, intente nuevamente", "error":"P12"}';
+
+
+      exit();
+
+    }
+    
+
+       /*===========================================F==
+         = USUARIO Y CONTRASEÑA PARA GENERAR TOQUEN DE 
+        AUTENTIFUCACION ANTE HACIENDA               =
+        =============================================*/
+
+        $user = $datosUsario["usuario_token_prueba"];
+        $contrasena = $datosUsario["contrasena_token_prueba"]; 
+
+           $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
+
+           $token = json_decode($token);
+
+           $token =  $token->{'access_token'};
+          
+       /*=============================================
+          =        ENVIAR XML FIRMADO A HACIENDA    =
+        =============================================*/
+
+ $respuesta_hacienda = api_facturacioncontroller::EnviarApiFacturas($token, $archivo_formado, $clave, $cedula_receptor, $fecha_factura_2, $tipo_cedula_emisor, $cedula_emisor);
+
+// $generarpdf = generarPdf::crearPDF($clave, $datosUsario["idtbl_clientes"]);
+
+// $dom = new  DomDocument();
+// $dom ->preseveWhiteSpace = FALSE ;
+// $dom -> loadXML(base64_decode($archivo_formado));
+// $dom -> save('../apiHacienda/clientes/'.$datosUsario["idtbl_clientes"].'/DocumentosFirmados/documento'.$clave.'.xml');
+
+// $ipremoteserver='backup.midigitalsat.com';
+// $urlremoteserver='https://backup.midigitalsat.com';
+
+// $username = 'root';
+// $password = 'Heriberto9109';
+//                     // Make our connection
+// $connection = ssh2_connect($ipremoteserver, 6060);
+
+//                     // Authenticate
+// if (!ssh2_auth_password($connection, $username, $password)) throw new Exception('Unable to connect.');
+
+//                     // Create our SFTP resource
+// if (!$sftp = ssh2_sftp($connection)) throw new Exception('Unable to create SFTP connection.');
+// $remotefile  = '/mnt/blockstorage/html/private/apiHacienda/clientes/'.$datosUsario["idtbl_clientes"].'/DocumentosFirmados/documento'.$clave.'.xml';
+// $localfile = '../apiHacienda/clientes/'.$datosUsario["idtbl_clientes"].'/DocumentosFirmados/documento'.$clave.'.xml';
+
+//  ssh2_scp_send($connection, $localfile, $remotefile, 0644);
+                    // download all the files
+// $localfile = fopen('../apiHacienda/clientes/Heribertocastro/DocumentosFirmados/documento'.$clave.'.xml', "r");
+   
+// $envioCorreo = api_facturacioncontroller::EnviarCorreo($clave, $datosUsario["idtbl_clientes"]);
+ 
+ $guardarXmlF = api_facturacioncontroller::GuardarXmlFirmado($clave, $archivo_formado);
  
         header("HTTP/1.1 200 OK");
-    echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'"}';
+echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'", "document": "'.$archivo_formado.'"}';
+
+// ssh2_exec($connection, 'exit');
 
       }else{
 
@@ -117,10 +249,14 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
       
       }
 
+
+
 }else{
 
 header("HTTP/1.1 403 Bad Request");
 echo '{"success": "false", "reason": "Error el archivo no cuenta con el formato Json correcto."}';
+
+
 
 
 }
@@ -194,24 +330,35 @@ public function GenerarToken($user, $contrasena){
      // $data = "client_id=api-prod&username=".$user."&password=".urlencode($contrasena)."&grant_type=password";
 
      $data = "client_id=api-stag&username=".$user."&password=".urlencode($contrasena)."&grant_type=password"; 
-    
-     $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
+    // $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut/protocol/openid-connect/token"); 
+   $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
+      //$ch = curl_init("https://posfacturar.com/pos_digitalsat/public/api/v5/sale/getBillSearch");
 
+// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+// curl_setopt($ch, CURLOPT_USERPWD, "163928b0-fc2b-485d-9cc9-de6c3b853d5f:ba58b332fad04e0"); 
+//Your credentials goes here
+
+          //URL de Produccion http://wcf.facturoporti.com.mx/Timbrado/Servicios.svc/ApiTimbrarCFDI
+         //curl_setopt($ch, CURLOPT_URL, "http://posfacturar.com/pos_digitalsat/public/api/v5/sale/add");
+        //a true, obtendremos una respuesta de la url, en otro caso,
+       //true si es correcto, false si no lo es
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
+        // Se define el tipo de metodo de envio de datos
         curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'Content-Type: application/x-www-form-urlencoded; charset=utf-8'));
+        //establecemos el verbo http que queremos utilizar para la petición
        
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        //enviamos el array data
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-     
+        //obtenemos la respuesta
         $response = curl_exec($ch);
-    
+        // Se cierra el recurso CURL y se liberan los recursos del sistema
     $response_info = curl_getinfo($ch);
 
-
+         // print_r(curl_getinfo($ch));
 
         curl_close($ch);
 
@@ -236,6 +383,9 @@ $json_factura = '{
   "comprobanteXml":"'.$archivo_formado.'"
 }';
 
+
+
+    
    $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion"); //ambiente sandbox
 
     // $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion/v1/recepcion");
@@ -267,10 +417,11 @@ $json_factura = '{
 
         if($response_info["http_code"] == 202 || $response_info["http_code"] == 200){
 
+          $mdlestado = api_facturacioncontroller::ModificarEstadoFacturaContingencia($clave);
 
         }else{
 
-         $mdlestado = api_facturacioncontroller::ModificarEstadoFactura($clave);
+          $mdlestado = api_facturacioncontroller::ModificarEstadoFactura($clave);
 
         }
 
@@ -288,94 +439,99 @@ $json_factura = '{
   }
 
 
-  public function  generarCedula12Digitos ($NumCedula){
+public function  generarCedula12Digitos ($NumCedula)
+{
 
-  $length = 12;
-  $string = substr(str_repeat(0, $length).$NumCedula, - $length);
+$length = 12;
+$string = substr(str_repeat(0, $length).$NumCedula, - $length);
 
-      return  $string;
-  }
+    return  $string;
+}
+
 
 
 public function GenerarXML($json_cliente, $fecha_factura, $idcliente){
-
-  /*=============================================
-  =             DATOS EMISOR                   =
-  =============================================*/
-
-  $usuario = $json_cliente["fileContent"]["datosEmisor"]["usuario"];
-  $contrasena = $json_cliente["fileContent"]["datosEmisor"]["password"];
-  $cedula_emisor = $json_cliente["fileContent"]["datosEmisor"]["cedula"];
-  $id_empresa = $json_cliente["fileContent"]["datosEmisor"]["id_empresa"];
-
-  /*=============================================
-  =            DATOS  RECEPTOR              =
-  =============================================*/
-  
-  $nombre = $json_cliente["fileContent"]["datosReceptor"]["nombre"];
-  $tipo_cedula = $json_cliente["fileContent"]["datosReceptor"]["tipoCedula"];
-  $cedula = $json_cliente["fileContent"]["datosReceptor"]["cedula"];
-  $direccion = $json_cliente["fileContent"]["datosReceptor"]["direccion"];
-  $correo = $json_cliente["fileContent"]["datosReceptor"]["correo"];
-  $telefono = $json_cliente["fileContent"]["datosReceptor"]["telefono"];
-  $provincia = $json_cliente["fileContent"]["datosReceptor"]["provincia"];
-  $canton = $json_cliente["fileContent"]["datosReceptor"]["canton"];
-  $distrito = $json_cliente["fileContent"]["datosReceptor"]["distrito"];
-  $senas = $json_cliente["fileContent"]["datosReceptor"]["senas"];
-
-  /*=============================================
-  =           DATOS FACTURA                  =
-  =============================================*/
-  $sucursal = $json_cliente["fileContent"]["datosFactura"]["sucursal"];
-  $caja = $json_cliente["fileContent"]["datosFactura"]["caja"];
-  $tipeDoc = $json_cliente["fileContent"]["datosFactura"]["tipoDoc"];
-  $moneda = $json_cliente["fileContent"]["datosFactura"]["moneda"];
-  $condicionVenta = $json_cliente["fileContent"]["datosFactura"]["condicionVenta"];
-  $plazo = $json_cliente["fileContent"]["datosFactura"]["plazoCredito"];
-  $mediopago = $json_cliente["fileContent"]["datosFactura"]["medioPago"];
-  $tipoCambio = $json_cliente["fileContent"]["datosFactura"]["tipoCambio"];
-  $actividaEconomica = $json_cliente["fileContent"]["datosFactura"]["actividadEconomica"];
-  $TiposPago = explode(',', $mediopago);
-  $api = $json_cliente["fileContent"]["datosFactura"]["api"];
-
-  if(!isset($json_cliente["fileContent"]["datosFactura"]["comentario"])){
-
-    $comentarioFact = "";
-
-  }else{
-
-    $comentarioFact = $json_cliente["fileContent"]["datosFactura"]["comentario"];
-
-  }
+/*=============================================
+=             DATOS EMISOR                   =
+=============================================*/
+$usuario = $json_cliente["fileContent"]["datosEmisor"]["usuario"];
+$contrasena = $json_cliente["fileContent"]["datosEmisor"]["password"];
+$cedula_emisor = $json_cliente["fileContent"]["datosEmisor"]["cedula"];
+$id_empresa = $json_cliente["fileContent"]["datosEmisor"]["id_empresa"];
 
 
-  /*=============================================
-  =          DATOS DETALLE  FACTURA            =
-  =============================================*/
+/*=============================================
+=            DATOS  RECEPTOR              =
+=============================================*/
+$nombre = $json_cliente["fileContent"]["datosReceptor"]["nombre"];
+$tipo_cedula = $json_cliente["fileContent"]["datosReceptor"]["tipoCedula"];
+$cedula = $json_cliente["fileContent"]["datosReceptor"]["cedula"];
+$direccion = $json_cliente["fileContent"]["datosReceptor"]["direccion"];
+$correo = $json_cliente["fileContent"]["datosReceptor"]["correo"];
+$telefono = $json_cliente["fileContent"]["datosReceptor"]["telefono"];
+$provincia = $json_cliente["fileContent"]["datosReceptor"]["provincia"];
+$canton = $json_cliente["fileContent"]["datosReceptor"]["canton"];
+$distrito = $json_cliente["fileContent"]["datosReceptor"]["distrito"];
+$senas = $json_cliente["fileContent"]["datosReceptor"]["senas"];
 
-  if($tipeDoc == "03"){
+ 
+/*=============================================
+=           DATOS FACTURA                  =
+=============================================*/
+$sucursal = $json_cliente["fileContent"]["datosFactura"]["sucursal"];
+$caja = $json_cliente["fileContent"]["datosFactura"]["caja"];
+$tipeDoc = $json_cliente["fileContent"]["datosFactura"]["tipoDoc"];
+$moneda = $json_cliente["fileContent"]["datosFactura"]["moneda"];
+$condicionVenta = $json_cliente["fileContent"]["datosFactura"]["condicionVenta"];
+$plazo = $json_cliente["fileContent"]["datosFactura"]["plazoCredito"];
+$mediopago = $json_cliente["fileContent"]["datosFactura"]["medioPago"];
+$tipoCambio = $json_cliente["fileContent"]["datosFactura"]["tipoCambio"];
+$actividaEconomica = $json_cliente["fileContent"]["datosFactura"]["actividadEconomica"];
+$TiposPago = explode(',', $mediopago);
+$api = $json_cliente["fileContent"]["datosFactura"]["api"];
+$consecutivo_hacienda = $json_cliente["fileContent"]["datosFactura"]["consecutivoHacienda"];
+$clave_hacienda = $json_cliente["fileContent"]["datosFactura"]["claveHacienda"];
 
-  $estadoAnulacion = $json_cliente["fileContent"]["datosFactura"]["estadoAnulacion"];
 
-  $clvRefencia = $json_cliente["fileContent"]["refenciaNota"]["clave"];
+if(!isset($json_cliente["fileContent"]["datosFactura"]["comentario"])){
+  $comentarioFact = "";
+}else{
+  $comentarioFact = $json_cliente["fileContent"]["datosFactura"]["comentario"];
+}
 
-  $Anulacion = api_facturacioncontroller::ModificarEstadoAnulacion($clvRefencia, $estadoAnulacion);
-  }else{
+// echo '<pre>'; print_r($comentarioFact); echo '</pre>';
 
-  $clvRefencia = "";
+// exit();
+/*=============================================
+=          DATOS DETALLE  FACTURA            =
+=============================================*/
 
-  }
+if($tipeDoc == "03"){
+
+$estadoAnulacion = $json_cliente["fileContent"]["datosFactura"]["estadoAnulacion"];
+
+$clvRefencia = $json_cliente["fileContent"]["refenciaNota"]["clave"];
+
+$Anulacion = api_facturacioncontroller::ModificarEstadoAnulacion($clvRefencia, $estadoAnulacion);
+}else{
 
 
-  if($condicionVenta == "02"){
+$clvRefencia = "";
 
-  $plazoCredito = '<PlazoCredito>'.$plazo.'</PlazoCredito>';
+}
 
-  }else{
 
-  $plazoCredito;
 
-  }
+
+if($condicionVenta == "02"){
+
+$plazoCredito = '<PlazoCredito>'.$plazo.'</PlazoCredito>';
+
+}else{
+
+$plazoCredito;
+
+}
 
 if($tipeDoc == "01"){
 
@@ -384,7 +540,6 @@ $header = 'xmlns:ds="http://www.w3.org/2000/09/xmldsig#"';
 $header .=' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"';
 $header .=' xmlns="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica"';
 $header .=' xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica.xsd">';
-
 
 }elseif($tipeDoc == "04"){
 
@@ -412,150 +567,115 @@ $header .=' xsi:schemaLocation="https://cdn.comprobanteselectronicos.go.cr/xml-s
 
 }
 
-  $header = str_replace ( '&gt' , '>' ,$header);
+$header = str_replace ( '&gt' , '>' ,$header);
  
-  $otrosCargos = '<OtrosCargos>
-  <TipoDocumento>01</TipoDocumento>
-  <NumeroIdentidadTercero>000123456789</NumeroIdentidadTercero>
-  <NombreTercero>batressc</NombreTercero>
-  <Detalle>este es el detalle de otros cargos</Detalle>
-  <Porcentaje>0.00000</Porcentaje>
-  <MontoCargo>0.00000</MontoCargo>
-  </OtrosCargos>';
+
+$otrosCargos = '<OtrosCargos>
+<TipoDocumento>01</TipoDocumento>
+<NumeroIdentidadTercero>000123456789</NumeroIdentidadTercero>
+<NombreTercero>batressc</NombreTercero>
+<Detalle>este es el detalle de otros cargos</Detalle>
+<Porcentaje>0.00000</Porcentaje>
+<MontoCargo>0.00000</MontoCargo>
+</OtrosCargos>';
 
 
-  $datosUsario = api_facturacioncontroller::cargarDatosUsuario($contrasena, $cedula_emisor);
-
-  if($datosUsario["tipo_personeria"] == "Fisico"){
-
-    $tipopersoneria = "01";
-
-  }elseif($datosUsario["tipo_personeria"] == "Juridico"){
-
-    $tipopersoneria = "02";
-
-  }elseif($datosUsario["tipo_personeria"] == "Dimex"){
-
-    $tipopersoneria = "03";
-
-  }elseif($datosUsario["tipo_personeria"] == "Nite"){
-
-    $tipopersoneria = "04";
-
-  }elseif($datosUsario["tipo_personeria"] == "Pasaporte" || $datosUsario["tipo_personeria"] == "" ){
-
-    $tipopersoneria = "";
-
-  }
-
-  $cedula_formateada = api_facturacioncontroller::generarCedula12Digitos ($datosUsario["cedula"]);
-  $año = date('y');
-  $mes = date('m');
-  $dia = date('d');
-
-  $tipo = "";
-  if($tipeDoc == "01"){
-
-    $tipo = "FE";
-
-  }else if($tipeDoc == "02"){
-
-    $tipo = "ND";
-
-  }else if($tipeDoc == "03"){
-
-    $tipo = "NC";
-
-  }else if($tipeDoc == "04"){
-
-  $tipo = "TE";
-
-  }
-// $i = 0;
-
-  do {
-      
-          $numUltimoConse = api_facturacioncontroller::Cargarultimoconsecutivo($id_empresa, $sucursal, $caja, $tipo);
-
-          if($numUltimoConse[0] == "" || $numUltimoConse[0] == false || $numUltimoConse[0] == "false" || $numUltimoConse == ""){
-
-          $ultimoconse = 1;
-
-          }else{
-
-          $ultimoconse = $numUltimoConse[0] + 1;
-
-          }
-
-  $IdFactura = "";
-
-  $ramdon = api_facturacioncontroller::getRandomHex(50);
-
-  $insertConse = api_facturacioncontroller::Insertarultimoconsecutivo($id_empresa, $IdFactura, $ultimoconse, $sucursal, $caja, $ramdon, $tipo);
-
-  // echo "sdxf ".$insertConse;
-
-  } while ($insertConse == "0");
+$datosUsario = api_facturacioncontroller::cargarDatosUsuario($contrasena, $cedula_emisor);
 
 
-// exit();
+if($datosUsario["tipo_personeria"] == "Fisico"){
 
-  $numero = $ultimoconse;
+  $tipopersoneria = "01";
 
-  $cantCeros = 3;
-  $sucursal1 = substr(str_repeat(0, $cantCeros).$sucursal, - $cantCeros);
+}elseif($datosUsario["tipo_personeria"] == "Juridico"){
 
-  $cantCeros = 5;
-  $puntoVenta = substr(str_repeat(0, $cantCeros).$caja, - $cantCeros);
+  $tipopersoneria = "02";
 
-  $cantCeros = 10;
-  $numero1 = substr(str_repeat(0, $cantCeros).$numero, - $cantCeros);
+}elseif($datosUsario["tipo_personeria"] == "Dimex"){
 
-  $cantCeros = 8;
-  $numero2 = substr(str_repeat(0, $cantCeros).$numero, - $cantCeros);
+  $tipopersoneria = "03";
 
-  $consecutivo_hacienda = $sucursal1.$puntoVenta.$tipeDoc.$numero1;
-  $clave_hacienda = '506'.$dia.$mes.$año.$cedula_formateada.$consecutivo_hacienda.'1'.$numero2;
+}elseif($datosUsario["tipo_personeria"] == "Nite"){
+
+  $tipopersoneria = "04";
+
+}elseif($datosUsario["tipo_personeria"] == "Pasaporte" || $datosUsario["tipo_personeria"] == "" ){
+
+  $tipopersoneria = "";
+
+}
+
+// echo '<pre>'; print_r($tipopersoneria); echo '</pre>';
+
+// exist
+
+$cedula_formateada = api_facturacioncontroller::generarCedula12Digitos ($datosUsario["cedula"]);
+$año = date('y');
+$mes = date('m');
+$dia = date('d');
+
+$tipo = "";
+if($tipeDoc == "01"){
+
+  $tipo = "FE";
+
+}else if($tipeDoc == "02"){
+
+  $tipo = "ND";
+
+}else if($tipeDoc == "03"){
+
+  $tipo = "NC";
+
+}else if($tipeDoc == "04"){
+
+$tipo = "TE";
+
+}
+
+
 
     date_default_timezone_set('America/Costa_Rica');
 
-  $fecha_creacion_factura = date('Y-m-d H:i:s');
-  $fecha_creacion = date('Y-m-d H:i:s');
-  $cancelado = 0;
-  $id_compania = $id_empresa;
+$fecha_creacion_factura = date('Y-m-d H:i:s');
+$fecha_creacion = date('Y-m-d H:i:s');
+$cancelado = 0;
+$id_compania = $id_empresa;
 
-  if($api == "" || !isset($json_cliente["fileContent"]["datosFactura"]["api"])){
-    $api = "Si";
-  }else{
-    $api = "No";
-  }
+
+if($api == "" || !isset($json_cliente["fileContent"]["datosFactura"]["api"])){
+
+  $api = "Si";
+
+}else{
+
+  $api = "No";
+
+}
  
 
-  $razon=""; 
+$razon=""; 
 
-      /*=============================================
-      =      GUARDAR DATOS DE LA FACTURA           =
-      =============================================*/
 
-  $IdFactura = api_facturacioncontroller::GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_creacion_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia,$mediopago, $api, $razon, $comentarioFact);
 
-  $insertConse = api_facturacioncontroller::Updateultimoconsecutivo($id_empresa, $IdFactura, $ramdon);
 
-  $nomUser = str_replace ( '"' , '' ,json_encode($datosUsario["nombre"], JSON_UNESCAPED_UNICODE));
-  $nomUser = str_replace ( '&' , '&amp;' ,$nomUser);
-  $nomUser = str_replace ( '<' , '&lt;' ,$nomUser);
-  $nomUser = str_replace ( '>' , '&gt;' ,$nomUser);
+$nomUser = str_replace ( '"' , '' ,json_encode($datosUsario["nombre"], JSON_UNESCAPED_UNICODE));
+$nomUser = str_replace ( '&' , '&amp;' ,$nomUser);
+$nomUser = str_replace ( '<' , '&lt;' ,$nomUser);
+$nomUser = str_replace ( '>' , '&gt;' ,$nomUser);
 
-  $nomClient = str_replace ( '"' , '' ,json_encode($nombre, JSON_UNESCAPED_UNICODE));
-  $nomClient = str_replace ( '&' , '&amp;' ,$nomClient);
-  $nomClient = str_replace ( '<' , '&lt;' ,$nomClient);
-  $nomClient = str_replace ( '>' , '&gt;' ,$nomClient);
 
-  $cantCeros = 2;
-  $canton = substr(str_repeat(0, $cantCeros).$datosUsario["canton"], - $cantCeros);
-  $distrito = substr(str_repeat(0, $cantCeros).$datosUsario["distrito"], - $cantCeros);
+$nomClient = str_replace ( '"' , '' ,json_encode($nombre, JSON_UNESCAPED_UNICODE));
+$nomClient = str_replace ( '&' , '&amp;' ,$nomClient);
+$nomClient = str_replace ( '<' , '&lt;' ,$nomClient);
+$nomClient = str_replace ( '>' , '&gt;' ,$nomClient);
 
-  $archivo_XML = '<?xml version="1.0" encoding="utf-8"?>'."\n";
+
+$cantCeros = 2;
+$canton = substr(str_repeat(0, $cantCeros).$datosUsario["canton"], - $cantCeros);
+$distrito = substr(str_repeat(0, $cantCeros).$datosUsario["distrito"], - $cantCeros);
+
+$archivo_XML = '<?xml version="1.0" encoding="utf-8"?>'."\n";
 
 $archivo_XML .= '<'.$tipo_documento.' '.$header.'
     <Clave>'.$clave_hacienda.'</Clave>
@@ -585,52 +705,51 @@ $archivo_XML .= '<'.$tipo_documento.' '.$header.'
  <Receptor>
 <Nombre>'.$nomClient.'</Nombre>';
 
-    if($tipo_cedula == "" || $tipo_cedula == "Pasaporte" || $tipo_cedula == "pasaporte"){
+if($tipo_cedula == "" || $tipo_cedula == "Pasaporte" || $tipo_cedula == "pasaporte"){
 
-    // $archivo_XML .='
-    // <Identificacion>
-    // <Numero>'.$cedula.'</Numero>
-    // </Identificacion>'."\n";
+// $archivo_XML .='
+// <Identificacion>
+// <Numero>'.$cedula.'</Numero>
+// </Identificacion>'."\n";
 
-    }else{
+}else{
 
-    $archivo_XML .='
-    <Identificacion>
-    <Tipo>'.$tipo_cedula.'</Tipo>
-    <Numero>'.$cedula.'</Numero>
-    </Identificacion>'."\n";
+$archivo_XML .='
+<Identificacion>
+<Tipo>'.$tipo_cedula.'</Tipo>
+<Numero>'.$cedula.'</Numero>
+</Identificacion>'."\n";
 
-    }
+}
 
-
-  if($provincia == "" || $provincia == 0){
-
-
-  }else{
-
-  $archivo_XML .= '<Ubicacion>
-  <Provincia>'.$provincia.'</Provincia>
-  <Canton>'.$canton.'</Canton>
-  <Distrito>'.$distrito.'</Distrito>
-  <OtrasSenas>'.$senas.'</OtrasSenas>
-  </Ubicacion>'."\n";
-
-  }
-
-  $archivo_XML .= '<Telefono>
-  <CodigoPais>506</CodigoPais>
-  <NumTelefono>'.$telefono.'</NumTelefono>
-  </Telefono>';
-
-  if($correo == "" || $correo == 0){
+if($provincia == "" || $provincia == 0){
 
 
-  }else{
+}else{
 
-    $archivo_XML .= '<CorreoElectronico>'.$correo.'</CorreoElectronico>';
+$archivo_XML .= '<Ubicacion>
+<Provincia>'.$provincia.'</Provincia>
+<Canton>'.$canton.'</Canton>
+<Distrito>'.$distrito.'</Distrito>
+<OtrasSenas>'.$senas.'</OtrasSenas>
+</Ubicacion>'."\n";
 
-  }
-  $archivo_XML .='</Receptor>
+}
+
+$archivo_XML .= '<Telefono>
+<CodigoPais>506</CodigoPais>
+<NumTelefono>'.$telefono.'</NumTelefono>
+</Telefono>';
+
+if($correo == "" || $correo == 0){
+
+
+}else{
+
+  $archivo_XML .= '<CorreoElectronico>'.$correo.'</CorreoElectronico>';
+
+}
+$archivo_XML .='</Receptor>
   <CondicionVenta>'.$condicionVenta.'</CondicionVenta>
   <PlazoCredito>0</PlazoCredito>';
 
@@ -641,6 +760,8 @@ $archivo_XML .= '<'.$tipo_documento.' '.$header.'
     }
 
   }
+
+
 
   $archivo_XML .=  '
   <DetalleServicio>'."\n";
@@ -713,6 +834,7 @@ $detalle_factura_impuesto_exonerado = '<Exoneracion>
 <MontoExoneracion>0.00000</MontoExoneracion>
 </Exoneracion>';
 
+
 $precioUnitario = floatval(str_replace ( '"' , '' ,json_encode($value["precioUnitario"])));
 $cantidadDetalle = intval(str_replace ( '"' , '' ,json_encode($value["cantidad"])));
 $montoDescuento = floatval(str_replace ( '"' , '' ,json_encode($value["descuento"])));
@@ -726,40 +848,40 @@ $precio_neto = str_replace ( ',' , '' ,number_format($precio_neto , 5 ));
 
 if(floatval(str_replace ( '"' , '' ,json_encode($value["tasaImpuesto"]))) == 0 ){
 
-  $total_linea = floatval($precio_bruto) - floatval($montoDescuento);
 
-  if(in_array( str_replace ( '"' , '' ,json_encode($value["unidadMedida"])) , $unidadMedida , true )){
+$total_linea = floatval($precio_bruto) - floatval($montoDescuento);
 
-  $ServiciosExentos = $precio_bruto;
 
-  }else{
+if(in_array( str_replace ( '"' , '' ,json_encode($value["unidadMedida"])) , $unidadMedida , true )){
 
-  $MercanciasExentas = $precio_bruto;
-
-  }
-
+$ServiciosExentos = $precio_bruto;
 
 }else{
 
-  if(in_array( str_replace ( '"' , '' ,json_encode($value["unidadMedida"])) , $unidadMedida , true )){
-
-  $ServiciosGrabados = $precio_bruto;
-
-  }else{
-
-  $MercanciasGravadas = $precio_bruto;
-
-  }
-
-
-  $porcentaje_iva = floatval($tasa_impuesto) / 100;
-  $total_impuesto = floatval($precio_neto) * floatval($porcentaje_iva);
-  $total_gravado = floatval($precio_bruto);
-  $total_linea = floatval($precio_neto) + floatval($total_impuesto);
+$MercanciasExentas = $precio_bruto;
 
 }
 
 
+}else{
+
+if(in_array( str_replace ( '"' , '' ,json_encode($value["unidadMedida"])) , $unidadMedida , true )){
+
+$ServiciosGrabados = $precio_bruto;
+
+}else{
+
+$MercanciasGravadas = $precio_bruto;
+
+}
+
+
+$porcentaje_iva = floatval($tasa_impuesto) / 100;
+$total_impuesto = floatval($precio_neto) * floatval($porcentaje_iva);
+$total_gravado = floatval($precio_bruto);
+$total_linea = floatval($precio_neto) + floatval($total_impuesto);
+
+}
 
 
 $total_linea = str_replace ( ',' , '' ,number_format($total_linea , 5 ));
@@ -770,7 +892,6 @@ $montoDescuento = str_replace ( ',' , '' ,number_format($montoDescuento , 5 ));
 $precio_bruto = str_replace ( ',' , '' ,number_format($precio_bruto , 5 ));
 $precio_neto = str_replace ( ',' , '' ,number_format($precio_neto , 5 ));
 $tasa_impuesto = str_replace ( ',' , '' ,number_format($tasa_impuesto , 5));
-
 
 // <ImpuestoNeto>0.00000</ImpuestoNeto>
 
@@ -840,7 +961,7 @@ $cantidad = intval($cantidadDetalle);
 $precio_unidad = floatval($precioUnitario);
 $subtotal = floatval($precio_neto);
 $descuento = floatval($montoDescuento);
-$impuesto = floatval($total_impuesto);
+$impuesto = floatval($total_impuesto); 
 $total = floatval($total_linea);
 $cabys = str_replace ( '"' , '' ,$value["cabys"]);
 $codImpuesto = str_replace ( '"' , '' ,$value["codTasaImpuesto"]);
@@ -853,18 +974,19 @@ if(str_replace ( '"' , '' ,$value["costo"]) != ""){
 
 }
 
- 
-$DetalleFactura = api_facturacioncontroller::GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto,$cosTasaImp, $unidadM,$categoria);
+
+// $DetalleFactura = api_facturacioncontroller::GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto,$cosTasaImp, $unidadM,$categoria);
 
 
 $contador = $contador  + 1;
 
+
 }/* FIN DEL METODO QUE RECORRE EL DETALLE DE LAS FACTURAS */
 
 
-    /*=============================================
-    =      CALCULO TOTALES DE LA FACTURA          =
-    =============================================*/
+/*=============================================
+=      CALCULO TOTALES DE LA FACTURA            =
+=============================================*/
 
 
 $total_exento = floatval($TotalMercanciasExentas) + floatval($TotalServiciosExentos);
@@ -901,7 +1023,7 @@ $TotalComprobante = str_replace ( ',' , '' ,number_format($TotalComprobante , 5 
 
 $otros_cargos = 0;
 
-$ModificarDatos = api_facturacioncontroller::ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
+// $ModificarDatos = api_facturacioncontroller::ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
 
 // <TotalServExonerado>0.00000</TotalServExonerado>
 // <TotalExonerado>0.00000</TotalExonerado>
@@ -909,7 +1031,6 @@ $ModificarDatos = api_facturacioncontroller::ModificarDatosFactura($TotalVentaNe
 // <TotalIVADevuelto>0.00000</TotalIVADevuelto>
 // <TotalOtrosCargos>0.00000</TotalOtrosCargos>
  
-
 $tipoCambio = str_replace ( ',' , '' ,number_format(floatval($tipoCambio) , 5 ));
 
 $archivo_XML .= '  </DetalleServicio>
@@ -957,7 +1078,6 @@ $archivo_XML .=  '
 $archivo_XML .= '</'.$tipo_documento.'>';
 
 
-
 // echo $archivo_XML;
 
 // exit();
@@ -965,13 +1085,86 @@ $archivo_XML .= '</'.$tipo_documento.'>';
 $dom = new  DomDocument();
 $dom ->preseveWhiteSpace = FALSE ;
 $dom -> loadXML($archivo_XML);
-// $dom -> save('../apiHacienda/clientes/'.$idcliente.'/Documentos/documento'.$clave_hacienda.'.xml');
+$dom -> save('../apiHacienda/clientes/'.$idcliente.'/Documentos/documento'.$clave_hacienda.'.xml');
 
+
+$ipremoteserver='backup.midigitalsat.com';
+$urlremoteserver='https://backup.midigitalsat.com';
+
+$username = 'root';
+$password = 'Heriberto9109';
+                    // Make our connection
+$connection = ssh2_connect($ipremoteserver, 6060);
+
+                    // Authenticate
+if (!ssh2_auth_password($connection, $username, $password)) throw new Exception('Unable to connect.');
+
+                    // Create our SFTP resource
+if (!$sftp = ssh2_sftp($connection)) throw new Exception('Unable to create SFTP connection.');
+$remotefile  = '/mnt/blockstorage/html/private/apiHacienda/clientes/'.$idcliente.'/Documentos/documento'.$clave_hacienda.'.xml';
+$localfile = '../apiHacienda/clientes/'.$idcliente.'/Documentos/documento'.$clave_hacienda.'.xml';
+
+ ssh2_scp_send($connection, $localfile, $remotefile, 0644);
+
+ssh2_exec($connection, 'exit');
 
 return $archivo_XML;
 
 
 }
+
+
+
+    public function EnviarCorreo($clave, $idcliente){
+
+
+$datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
+
+
+            //Load Composer's autoloader
+            // require 'vendor/autoload.php';
+
+            //Create an instance; passing `true` enables exceptions
+            $mail = new PHPMailer(true);
+
+            try {
+                //Server settings
+                // $mail->SMTPDebug = 2;                      //Enable verbose debug output
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = 'mail.digitalsat-cr.com';                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = 'dsalazar@digitalsat-cr.com';                     //SMTP username
+                $mail->Password   = 'salazar123456';                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+                $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                //Recipients
+                $mail->setFrom('dsalazar@digitalsat-cr.com', '');
+                $mail->addAddress($datosFac[0][14], $datosFac[0][13]);     //Add a recipient
+                // $mail->addAddress('ellen@example.com');               //Name is optional
+                // $mail->addReplyTo('info@example.com', 'Information');
+                // $mail->addCC('cc@example.com');
+                // $mail->addBCC('bcc@example.com');
+
+                //Attachments
+                $mail->addAttachment('../apiHacienda/clientes/'.$idcliente.'/DocumentosFirmados/documento'.$clave.'.xml','Factura.xml');         //Add attachments
+                $mail->addAttachment('../apiHacienda/clientes/'.$idcliente.'/facturaPDF/Documento'.$clave.'.pdf', 'Factura.pdf');    //Optional name
+
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = 'prueba envio';
+                $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                $mail->send();
+               
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+
+
+    }
+
 
     public function getRandomHex($num_bytes=4) {
 
@@ -981,13 +1174,13 @@ return $archivo_XML;
     public function GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
-        $estado = "contingencia";
+
+        $estado = "enviado";
     
    $insertFactura = api_facturacionModel::MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact, $estado);
        return $insertFactura;
 
         }
-
 
 
     public function ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura){
@@ -996,12 +1189,11 @@ return $archivo_XML;
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
 
-       $ModificarFactura = api_facturacionModel::MdlModificarDatosFactura($table, $TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
+        $ModificarFactura = api_facturacionModel::MdlModificarDatosFactura($table, $TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
  
-     return $ModificarFactura;
+        return $ModificarFactura;
 
         }
-
 
    public function GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria){
 
@@ -1063,40 +1255,11 @@ return $archivo_XML;
         }
 
 
-        // public function InsertarultimoconsecutivoTE($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_tep_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlInsertarUltimoConsecutivo($table, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random);
-        
-        // return  $insertarconsecutivo;
-
-        // }
-
-
-        //     public function InsertarultimoconsecutivoNC($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_ncp_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlInsertarUltimoConsecutivo($table, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random);
-        
-        //   return  $insertarconsecutivo;
-
-        // }
-
-
-        //     public function InsertarultimoconsecutivoND($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_ndp_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlInsertarUltimoConsecutivo($table, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random);
-    
-        //       return  $insertarconsecutivo;
-        // }
 
 
 
- public function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
+
+    public function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
 
         $table = 'empresas.tbl_ultimo_consecutivo_P';
 
@@ -1106,36 +1269,7 @@ return $archivo_XML;
         }
 
 
-        // public function UpdateultimoconsecutivoTE($id_empresa, $id_factura, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_tep_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlUpdateconse($table, $id_factura, $random);
-    
-
-        // }
-
-
-        //     public function UpdateultimoconsecutivoNC($id_empresa, $id_factura, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_ncp_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlUpdateconse($table, $id_factura, $random);
-    
-
-        // }
-
-
-        //     public function UpdateultimoconsecutivoND($id_empresa, $id_factura, $random){
-
-        // $table = 'empresas.tbl_ultimo_consecutivo_ndp_sucursal_'.$id_empresa;
-
-        // $insertarconsecutivo = api_facturacionModel:: MdlUpdateconse($table, $id_factura, $random);
-    
-
-        // }
-
-
+     
 
     public function CargarDatosFactura($clave){
 
@@ -1310,7 +1444,10 @@ return $archivo_XML;
 
             }
 
+
         }
+
+
 
   }
 
@@ -1323,7 +1460,7 @@ return $archivo_XML;
     
         return $DatosEmpresa;
 
-    }
+        }
 
 
     public function GuardarXmlFirmado($clave, $xml){
@@ -1334,7 +1471,7 @@ return $archivo_XML;
     
         return $DatosEmpresa;
 
-    }
+        }
 
 
     public function ModificarEstadoAnulacion($clave, $estadoAnulacion){
@@ -1343,6 +1480,15 @@ return $archivo_XML;
 
         $DatosEmpresa = api_facturacionModel::MdlModificarEstadoAnulacion($table, $clave, $estadoAnulacion);
     
+        }
+
+
+    public function ModificarEstadoFacturaContingencia($clave){
+
+      $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+  
+      $DatosEmpresa = api_facturacionModel::MdlModificarEstadoFacturaContingencia($table, $clave);
+      
     }
 
 }

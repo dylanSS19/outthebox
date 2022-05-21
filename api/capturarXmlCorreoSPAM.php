@@ -24,7 +24,7 @@ set_time_limit(10000);
 $hostname = '{mail.outthebox-cr.com/imap/ssl}INBOX.spam';
 
 $username = 'facturacion@outthebox-cr.com'; # e.g somebody@gmail.com
-$password = 'Facturacion2021*';
+$password = ':Az*NdbpLQK!,8M,{4S%fN';
  
  
 /* try to connect */

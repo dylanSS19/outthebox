@@ -1289,8 +1289,9 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
+        $estado = "enviado";
     
-   $insertFactura = api_facturacionModel::MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact);
+   $insertFactura = api_facturacionModel::MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact, $estado);
        return $insertFactura;
 
         }
