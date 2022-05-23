@@ -51,7 +51,7 @@ $contrasena = $data["fileContent"]["datosEmisor"]["password"];
 
 $cedula = $data["fileContent"]["datosEmisor"]["cedula"];
 
-
+ 
 $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario($usuario, $contrasena, $cedula);
 
       if($validacionCredenciales[0] == 1){

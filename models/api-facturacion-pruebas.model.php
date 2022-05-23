@@ -75,11 +75,11 @@ class api_facturacionModel {
 
 	} 
 
-				static public function MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact) {
+				static public function MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact, $estado) {
 			
 			$db = Connexion::connect();
 
-			$estado = "enviado";
+			// $estado = "enviado";
 
 			$stmt = $db->prepare("INSERT INTO  $table (id_compania, sucursal, caja, fecha_factura, fecha_creacion, cancelado, consecutivo, clave, tipo_documento, codigo_actividad, condicion_venta, tipo_personeria, cedula_cliente, nombre_cliente, correo_cliente, tipo_cambio, codigo_moneda, fecha_estado, estado_factura, plazo_credito, referencia, medios_pago, api, razon, comentarios) VALUES(:id_compania, :sucursal, :caja, :fecha_factura, :fecha_creacion, :cancelado, :consecutivo, :clave, :tipo_documento, :codigo_actividad, :condicion_venta, :tipo_personeria, :cedula_cliente, :nombre_cliente, :correo_cliente, :tipo_cambio, :codigo_moneda, :fecha_estado, :estado_factura, :plazo_credito, :referencia, :medios_pago, :api, :razon, :comentarios)");				
  
