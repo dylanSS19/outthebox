@@ -84,7 +84,7 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
             exit();
            }
-
+           
 
     date_default_timezone_set('America/Costa_Rica');
 
@@ -324,7 +324,7 @@ class api_facturacioncontroller{
 
 }
 
-public function GenerarToken($user, $contrasena){
+public static function GenerarToken($user, $contrasena){
   
 
      // $data = "client_id=api-prod&username=".$user."&password=".urlencode($contrasena)."&grant_type=password";
@@ -367,7 +367,7 @@ public function GenerarToken($user, $contrasena){
   }
  
 
-public function EnviarApiFacturas($token, $archivo_formado, $clave, $cedula_receptor, $fecha_factura_2, $tipo_cedula_emisor, $cedula_emisor){
+public static function EnviarApiFacturas($token, $archivo_formado, $clave, $cedula_receptor, $fecha_factura_2, $tipo_cedula_emisor, $cedula_emisor){
     
 
   $authorization = "Authorization: Bearer ".$token."";
@@ -439,7 +439,7 @@ $json_factura = '{
   }
 
 
-public function  generarCedula12Digitos ($NumCedula)
+public static function  generarCedula12Digitos ($NumCedula)
 {
 
 $length = 12;
@@ -450,7 +450,7 @@ $string = substr(str_repeat(0, $length).$NumCedula, - $length);
 
 
 
-public function GenerarXML($json_cliente, $fecha_factura, $idcliente){
+public static function GenerarXML($json_cliente, $fecha_factura, $idcliente){
 /*=============================================
 =             DATOS EMISOR                   =
 =============================================*/
@@ -1115,7 +1115,7 @@ return $archivo_XML;
 
 
 
-    public function EnviarCorreo($clave, $idcliente){
+    public static function EnviarCorreo($clave, $idcliente){
 
 
 $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
@@ -1166,12 +1166,12 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
     }
 
 
-    public function getRandomHex($num_bytes=4) {
+    public static function getRandomHex($num_bytes=4) {
 
       return bin2hex(openssl_random_pseudo_bytes($num_bytes));
     }
 
-    public function GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact){
+    public static function GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
@@ -1183,7 +1183,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         }
 
 
-    public function ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura){
+    public static function ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura){
 
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
@@ -1195,7 +1195,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
         }
 
-   public function GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria){
+   public static function GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria){
 
         $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
 
@@ -1203,7 +1203,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
         }
     
-    public function Cargarultimoconsecutivo($id_empresa, $sucursal, $caja, $tipo){
+    public static function Cargarultimoconsecutivo($id_empresa, $sucursal, $caja, $tipo){
 
         $table = 'empresas.tbl_ultimo_consecutivo_P';
 
@@ -1244,7 +1244,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         // } 
 
 
-    public function Insertarultimoconsecutivo($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo){
+    public static function Insertarultimoconsecutivo($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo){
 
         $table = 'empresas.tbl_ultimo_consecutivo_P';
 
@@ -1259,7 +1259,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
 
 
-    public function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
+    public static function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
 
         $table = 'empresas.tbl_ultimo_consecutivo_P';
 
@@ -1271,7 +1271,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
      
 
-    public function CargarDatosFactura($clave){
+    public static function CargarDatosFactura($clave){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
@@ -1282,7 +1282,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         }
 
 
-    public function CargarDetalleFactura($id_factura){
+    public static function CargarDetalleFactura($id_factura){
 
         $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
 
@@ -1292,7 +1292,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
         }
 
-    public function CargarDatosEmpresa($id_empresa){
+    public static function CargarDatosEmpresa($id_empresa){
 
         $table = 'empresas.tbl_clientes';
 
@@ -1302,7 +1302,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
         }
 
-    public function EliminarDatosFactura($clave){
+    public static function EliminarDatosFactura($clave){
 
           $table = 'empresas.tbl_sistema_facturacion_facturas_P';
   
@@ -1312,7 +1312,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
   
           }
 
-    public function EliminarUltConsecutivo($clave){
+    public static function EliminarUltConsecutivo($clave){
       
             $table = 'empresas.tbl_ultimo_consecutivo_P';
             $table2 = 'empresas.tbl_sistema_facturacion_facturas_P';
@@ -1323,7 +1323,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
     
             }
 
-  public function ValidarNodosJson($json){
+  public static function ValidarNodosJson($json){
 
 
             if(array_key_exists('datosReceptor', $json["fileContent"]) && array_key_exists('datosEmisor', $json["fileContent"]) && array_key_exists('datosFactura', $json["fileContent"])){
@@ -1362,7 +1362,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
             exit();
             }
 
-            if(array_key_exists('sucursal', $json["fileContent"]["datosFactura"]) && array_key_exists('caja', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoDoc', $json["fileContent"]["datosFactura"]) && array_key_exists('moneda', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoCambio', $json["fileContent"]["datosFactura"]) && array_key_exists('plazoCredito', $json["fileContent"]["datosFactura"]) && array_key_exists('medioPago', $json["fileContent"]["datosFactura"]) && array_key_exists('actividadEconomica', $json["fileContent"]["datosFactura"])  && array_key_exists('detalleFactura', $json["fileContent"]["datosFactura"])){
+            if(array_key_exists('sucursal', $json["fileContent"]["datosFactura"]) && array_key_exists('caja', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoDoc', $json["fileContent"]["datosFactura"]) && array_key_exists('moneda', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoCambio', $json["fileContent"]["datosFactura"]) && array_key_exists('plazoCredito', $json["fileContent"]["datosFactura"]) && array_key_exists('medioPago', $json["fileContent"]["datosFactura"]) && array_key_exists('actividadEconomica', $json["fileContent"]["datosFactura"])  && array_key_exists('detalleFactura', $json["fileContent"]["datosFactura"]) && array_key_exists('api', $json["fileContent"]["datosFactura"]) && array_key_exists('estadoAnulacion', $json["fileContent"]["datosFactura"]) && array_key_exists('comentario', $json["fileContent"]["datosFactura"]) && array_key_exists('consecutivoHacienda', $json["fileContent"]["datosFactura"]) && array_key_exists('claveHacienda', $json["fileContent"]["datosFactura"])){
 
          
 
@@ -1400,7 +1400,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
     }
 
 
-  public function ValidarCajaSucursal($json){
+  public static function ValidarCajaSucursal($json){
 
     $caja = $json["fileContent"]["datosFactura"]["caja"];
 
@@ -1452,7 +1452,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
   }
 
 
-    public function ModificarEstadoFactura($clave){
+    public static function ModificarEstadoFactura($clave){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
@@ -1463,7 +1463,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         }
 
 
-    public function GuardarXmlFirmado($clave, $xml){
+    public static function GuardarXmlFirmado($clave, $xml){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
@@ -1474,7 +1474,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         }
 
 
-    public function ModificarEstadoAnulacion($clave, $estadoAnulacion){
+    public static function ModificarEstadoAnulacion($clave, $estadoAnulacion){
 
         $table = 'empresas.tbl_sistema_facturacion_facturas_P';
 
@@ -1483,7 +1483,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
         }
 
 
-    public function ModificarEstadoFacturaContingencia($clave){
+    public static function ModificarEstadoFacturaContingencia($clave){
 
       $table = 'empresas.tbl_sistema_facturacion_facturas_P';
   

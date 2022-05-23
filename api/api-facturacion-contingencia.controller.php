@@ -1228,7 +1228,7 @@ return $archivo_XML;
             exit();
             }
 
-            if(array_key_exists('sucursal', $json["fileContent"]["datosFactura"]) && array_key_exists('caja', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoDoc', $json["fileContent"]["datosFactura"]) && array_key_exists('moneda', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoCambio', $json["fileContent"]["datosFactura"]) && array_key_exists('plazoCredito', $json["fileContent"]["datosFactura"]) && array_key_exists('medioPago', $json["fileContent"]["datosFactura"]) && array_key_exists('actividadEconomica', $json["fileContent"]["datosFactura"])  && array_key_exists('detalleFactura', $json["fileContent"]["datosFactura"])){
+            if(array_key_exists('sucursal', $json["fileContent"]["datosFactura"]) && array_key_exists('caja', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoDoc', $json["fileContent"]["datosFactura"]) && array_key_exists('moneda', $json["fileContent"]["datosFactura"]) && array_key_exists('tipoCambio', $json["fileContent"]["datosFactura"]) && array_key_exists('plazoCredito', $json["fileContent"]["datosFactura"]) && array_key_exists('medioPago', $json["fileContent"]["datosFactura"]) && array_key_exists('actividadEconomica', $json["fileContent"]["datosFactura"])  && array_key_exists('detalleFactura', $json["fileContent"]["datosFactura"]) && array_key_exists('api', $json["fileContent"]["datosFactura"]) && array_key_exists('estadoAnulacion', $json["fileContent"]["datosFactura"]) && array_key_exists('comentario', $json["fileContent"]["datosFactura"])){
 
          
 
