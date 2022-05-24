@@ -34,7 +34,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-
 /*=============================================
 = VALIDAR QUE LA ESTRUCTURA DE LOS DATOS RECIVIDOS
   ES UN JSON                                    =
@@ -74,7 +73,11 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
             $contrasena = $datosUsario["contrasena_token_prueba"]; 
 
            $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
-           $token = json_decode($token);
+           $token = json_decode($token,true);
+          //  $token = json_encode($token);
+
+          
+          //  echo '<pre>'; print_r($token); echo '</pre>';
     
            if(!array_key_exists('access_token', $token)){
 
@@ -145,11 +148,7 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
       $tipo_cedula_emisor = $values[13]["value"];
       $cedula_emisor = $values[15]["value"];
 
-
 }
-
-
-
 
       /*=============================================
       =  RUTA DEL ARCHIVO P1, CONTRASEÑA Y ARCHIVO, SE FIRMA EL XML =
@@ -161,11 +160,9 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
       // $xml = '../apiHacienda/clientes/Heribertocastro/Documentos/documento'.$clave.'.xml';
       $ruta = "dfhjdfhj";
         
-         $archivo_formado = api_facturacion2controller::firmar($pfx, $pin, $xml, $ruta,$fecha_factura);
+      $archivo_formado = api_facturacion2controller::firmar($pfx, $pin, $xml, $ruta,$fecha_factura);
  
-      
-
-
+    
     if (base64_encode(base64_decode($archivo_formado, true)) === $archivo_formado){
         
     } else {
@@ -176,7 +173,6 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
       header("HTTP/1.1 403 Forbidden");
 
       echo '{"success": "false", "reason": "Archivo .P12 no valido, intente nuevamente", "error":"P12"}';
-
 
       exit();
 
@@ -235,14 +231,14 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
  $guardarXmlF = api_facturacioncontroller::GuardarXmlFirmado($clave, $archivo_formado);
  
         header("HTTP/1.1 200 OK");
-echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'", "document": "'.$archivo_formado.'"}';
+        echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'", "document": "'.$archivo_formado.'"}';
 
 // ssh2_exec($connection, 'exit');
 
       }else{
 
 
-        header("HTTP/1.1 400 Bad Request");
+      header("HTTP/1.1 400 Bad Request");
 
       echo '{"success": "false", "reason": "CREDENCIALES INCORRECTAS"}';
 
@@ -253,10 +249,8 @@ echo '{"success": "true", "Clave":"'.$clave.'", "Consecutivo":"'.$consecutivo.'"
 
 }else{
 
-header("HTTP/1.1 403 Bad Request");
-echo '{"success": "false", "reason": "Error el archivo no cuenta con el formato Json correcto."}';
-
-
+  header("HTTP/1.1 403 Bad Request");
+  echo '{"success": "false", "reason": "Error el archivo no cuenta con el formato Json correcto."}';
 
 
 }
