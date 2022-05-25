@@ -567,4 +567,30 @@ static public function MdlEliminarUltConsecutivo($table, $table2, $clave) {
 
 }
 
+
+static public function MdlModificarEstadoFacturaContingencia($table, $clave) {
+
+	$stmt = Connexion::connect()->prepare("UPDATE $table SET estado_factura = 'enviado' where clave = '$clave'");				
+
+
+	if($stmt->execute()){
+
+
+	return 'ok';
+	
+
+	}else{
+
+
+	return $stmt->errorInfo()[2];
+
+
+	}
+
+	$stmt -> close();
+
+	$stmt =null;
+
+}
+
 }
