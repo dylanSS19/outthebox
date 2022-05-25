@@ -12,17 +12,19 @@ $facturas = ClsEnviarFacturas::CargarFacturas($table);
 for ($i = 0; $i < count($facturas); $i++) {
 
     $table = 'empresas.tbl_clientes';
-
+// CARGAR DATOS DEL CLIENTE
     $cliente = ClsEnviarFacturas::CargarDatosCliente($table, $facturas[$i]["id_compania"]);
 
     // echo '<pre>'; print_r($cliente); echo '</pre>';
 
     $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
-
+// CARGAR DETALLE DE LAS FACTURAS
     $detalleFactura = ClsEnviarFacturas::CargarDetalleFacturas($table, $facturas[$i]["idtbl_sistema_facturacion_facturas"]);
 
     $datosDetalleFactura = "";
+    $datosFactura = "";
 
+// FOR QUE RECORRE EL DETALLE DE LAS FACTURAS Y CREA EL NODO DETALLE FACTURA EN EL JSON
     for ($j = 0; $j < count($detalleFactura); $j++) {
     
         $datosDetalleFactura .= '{							
@@ -47,9 +49,10 @@ for ($i = 0; $i < count($facturas); $i++) {
             },';
     }
 
+    // RECORTAMOS LA ULTIMA (,) AGREGADA EN EL NODO
     $datosDetalleFactura = substr($datosDetalleFactura, 0, -1);
 
-
+    // SE CREA EL NODO (FILECONTENT) DEL JSON
     $datosFactura = '{
         "fileContent":{
                     "datosEmisor":{
@@ -91,12 +94,10 @@ for ($i = 0; $i < count($facturas); $i++) {
                 
     }';
 
-
+// SE ENVIAN LOS DATOS AL API DE FACTURAS CONTINGENCIA PARA SER ENVIADA A HACIENDA
     $Resultado = ClsEnviarFacturas::EnviarFacturaApi($datosFactura);
 
     echo $Resultado;
-
-    // echo '<pre>'; print_r($datosFactura); echo '</pre>';
 
 }
 
