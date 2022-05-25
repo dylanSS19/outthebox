@@ -3,30 +3,27 @@
 ini_set('memory_limit', '1024M');
 ini_set('user_agent', 'My-Application/2.5');
 
-$table = 'empresas.tbl_sistema_facturacion_facturas_P';
-
-
+$table = 'empresas.tbl_sistema_facturacion_facturas';
 // CARGAR DATOS DE LAS FACTURAS EN ESTADO CONTINGENCIA 
 $facturas = ClsEnviarFacturas::CargarFacturas($table);
 
 for ($i = 0; $i < count($facturas); $i++) {
 
-    $table = 'empresas.tbl_clientes';
-// CARGAR DATOS DEL CLIENTE
-    $cliente = ClsEnviarFacturas::CargarDatosCliente($table, $facturas[$i]["id_compania"]);
-
-    // echo '<pre>'; print_r($cliente); echo '</pre>';
-
-    $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
-// CARGAR DETALLE DE LAS FACTURAS
-    $detalleFactura = ClsEnviarFacturas::CargarDetalleFacturas($table, $facturas[$i]["idtbl_sistema_facturacion_facturas"]);
-
     $datosDetalleFactura = "";
     $datosFactura = "";
 
-// FOR QUE RECORRE EL DETALLE DE LAS FACTURAS Y CREA EL NODO DETALLE FACTURA EN EL JSON
+    $table = 'empresas.tbl_clientes';
+    // CARGAR DATOS DEL CLIENTE
+    $cliente = ClsEnviarFacturas::CargarDatosCliente($table, $facturas[$i]["id_compania"]);
+
+    $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
+    // CARGAR DETALLE DE LAS FACTURAS
+    $detalleFactura = ClsEnviarFacturas::CargarDetalleFacturas($table, $facturas[$i]["idtbl_sistema_facturacion_facturas"]);
+
+    // FOR QUE RECORRE EL DETALLE DE LAS FACTURAS Y CREA EL NODO DETALLE FACTURA EN EL JSON
     for ($j = 0; $j < count($detalleFactura); $j++) {
-    
+
+    // SE CREA EL NODO (DETALLEFACTURA) DEL JSON
         $datosDetalleFactura .= '{							
                 "numeroLinea":"'.($j + 1) .'",
                 "cabys":"'.$detalleFactura[$j]["cabys"].'",
@@ -74,31 +71,29 @@ for ($i = 0; $i < count($facturas); $i++) {
                         "senas": ""
                     },			
                     "datosFactura":{
-                            "sucursal":"'.$facturas[$i]["sucursal"].'",
-                            "caja":"'.$facturas[$i]["caja"].'",
-                            "tipoDoc":"'.$facturas[$i]["tipo_documento"].'",
-                            "moneda":"'.$facturas[$i]["codigo_moneda"].'",					
-                            "condicionVenta":"'.$facturas[$i]["condicion_venta"].'",
-                            "plazoCredito":"'.$facturas[$i]["plazo_credito"].'",
-                            "medioPago":"'.$facturas[$i]["medios_pago"].'",
-                            "tipoCambio":"'.$facturas[$i]["tipo_cambio"].'",
-                            "actividadEconomica":"'.$facturas[$i]["codigo_actividad"].'",
-                            "api":"'.$facturas[$i]["api"].'",
-                            "estadoAnulacion":"'.$facturas[$i]["estado_anulacion"].'",
-                            "comentario":"'.$facturas[$i]["comentarios"].'",
-                            "consecutivoHacienda":"'.$facturas[$i]["consecutivo"].'",
-                               "claveHacienda":"'.$facturas[$i]["clave"].'",	
-                            "detalleFactura":['.$datosDetalleFactura.']															
+                        "sucursal":"'.$facturas[$i]["sucursal"].'",
+                        "caja":"'.$facturas[$i]["caja"].'",
+                        "tipoDoc":"'.$facturas[$i]["tipo_documento"].'",
+                        "moneda":"'.$facturas[$i]["codigo_moneda"].'",					
+                        "condicionVenta":"'.$facturas[$i]["condicion_venta"].'",
+                        "plazoCredito":"'.$facturas[$i]["plazo_credito"].'",
+                        "medioPago":"'.$facturas[$i]["medios_pago"].'",
+                        "tipoCambio":"'.$facturas[$i]["tipo_cambio"].'",
+                        "actividadEconomica":"'.$facturas[$i]["codigo_actividad"].'",
+                        "api":"'.$facturas[$i]["api"].'",
+                        "estadoAnulacion":"'.$facturas[$i]["estado_anulacion"].'",
+                        "comentario":"'.$facturas[$i]["comentarios"].'",
+                        "consecutivoHacienda":"'.$facturas[$i]["consecutivo"].'",
+                        "claveHacienda":"'.$facturas[$i]["clave"].'",	
+                        "detalleFactura":['.$datosDetalleFactura.']															
                     }
-            }
-                
+            }              
     }';
 
-// SE ENVIAN LOS DATOS AL API DE FACTURAS CONTINGENCIA PARA SER ENVIADA A HACIENDA
+    // SE ENVIAN LOS DATOS AL API DE FACTURAS CONTINGENCIA PARA SER ENVIADA A HACIENDA
     $Resultado = ClsEnviarFacturas::EnviarFacturaApi($datosFactura);
 
     echo $Resultado;
-
 }
 
 class ClsEnviarFacturas{
@@ -118,8 +113,6 @@ class ClsEnviarFacturas{
 
     static public function CargarFacturas($table) {
 
-        /* echo "<script>console.log('SELECT * FROM " . $table . " where ". $item . " = ". $value . "' );</script>";*/
-
         $stmt = ClsEnviarFacturas::conexion()->prepare("SELECT * FROM $table WHERE estado_factura = 'contingencia'");
 
         $stmt -> execute();
@@ -128,13 +121,11 @@ class ClsEnviarFacturas{
 
         $stmt -> close();
 
-    $stmt =null;
+        $stmt =null;
 
     }
 
     static public function CargarDatosCliente($table, $idEmpresa) {
-
-        /* echo "<script>console.log('SELECT * FROM " . $table . " where ". $item . " = ". $value . "' );</script>";*/
 
         $stmt = ClsEnviarFacturas::conexion()->prepare("SELECT usuario_facturacion, contrasena_facturacion, cedula FROM $table WHERE idtbl_clientes = '$idEmpresa'");
 
@@ -144,13 +135,11 @@ class ClsEnviarFacturas{
 
         $stmt -> close();
 
-    $stmt =null;
+        $stmt =null;
 
     }
 
     static public function CargarDetalleFacturas($table, $idFactura) {
-
-        /* echo "<script>console.log('SELECT * FROM " . $table . " where ". $item . " = ". $value . "' );</script>";*/
 
         $stmt = ClsEnviarFacturas::conexion()->prepare("SELECT * FROM $table WHERE id_factura = '$idFactura'");
 
@@ -160,17 +149,12 @@ class ClsEnviarFacturas{
 
         $stmt -> close();
 
-    $stmt =null;
+        $stmt =null;
 
     }
 
-
-
     public function EnviarFacturaApi($datosFactura){
-
-    echo $datosFactura;
-
-  
+ 
         $ch = curl_init("http://localhost/outthebox/api/api-facturacion-contingencia-envio.controller.php");
   
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -190,7 +174,6 @@ class ClsEnviarFacturas{
         echo $response;
             
     }
-
 
 }
 
