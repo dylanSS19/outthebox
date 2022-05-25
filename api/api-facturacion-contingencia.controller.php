@@ -1,7 +1,7 @@
 <?php
 
 require_once ("../extensions/firmarXML/firmar.php");
-require_once  ("../models/api-facturacion-pruebas.model.php");
+require_once  ("../models/api-facturacion.model.php");
 // require_once  ("../extensions/tcpdf/pdf/comprobante_factura.php");
 require_once  ("../extensions/factura/generaFactura.php");
 
@@ -980,7 +980,7 @@ return $archivo_XML;
 
     public static function GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
         $estado = "contingencia";
     
    $insertFactura = api_facturacionModel::MdlInsertarDatosFactura($table, $id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact, $estado);
@@ -993,7 +993,7 @@ return $archivo_XML;
     public static function ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura){
 
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
 
        $ModificarFactura = api_facturacionModel::MdlModificarDatosFactura($table, $TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
@@ -1005,7 +1005,7 @@ return $archivo_XML;
 
    public static function GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria){
 
-        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
 
         $insertDetalleFactura = api_facturacionModel::MdlInsertarDetalleFactura($table, $IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria);
 
@@ -1013,7 +1013,7 @@ return $archivo_XML;
     
     public static function Cargarultimoconsecutivo($id_empresa, $sucursal, $caja, $tipo){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $Cargarconsecutivo = api_facturacionModel:: MdlcargarUltimoConsecutivo($table, $sucursal, $caja, $tipo, $id_empresa);
 
@@ -1054,7 +1054,7 @@ return $archivo_XML;
 
     public static function Insertarultimoconsecutivo($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $insertarconsecutivo = api_facturacionModel:: MdlInsertarUltimoConsecutivo($table, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo, $id_empresa);
             
@@ -1098,7 +1098,7 @@ return $archivo_XML;
 
  public static function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $insertarconsecutivo = api_facturacionModel:: MdlUpdateconse($table, $id_factura, $random);
     
@@ -1139,7 +1139,7 @@ return $archivo_XML;
 
   public static function CargarDatosFactura($clave){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $factura = api_facturacionModel:: MdlCargarDatosFactura($table, $clave);
     
@@ -1150,7 +1150,7 @@ return $archivo_XML;
 
   public static function CargarDetalleFactura($id_factura){
 
-        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
 
         $Detallefactura = api_facturacionModel:: MdlCargarDetalleFactura($table, $id_factura);
     
@@ -1170,7 +1170,7 @@ return $archivo_XML;
 
   public static function EliminarDatosFactura($clave){
 
-          $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+          $table = 'empresas.tbl_sistema_facturacion_facturas';
   
           $DatosEmpresa = api_facturacionModel:: MdlEliminarDatosFactura($table, $clave);
       
@@ -1180,8 +1180,8 @@ return $archivo_XML;
 
   public static function EliminarUltConsecutivo($clave){
       
-            $table = 'empresas.tbl_ultimo_consecutivo_P';
-            $table2 = 'empresas.tbl_sistema_facturacion_facturas_P';
+            $table = 'empresas.tbl_ultimo_consecutivo';
+            $table2 = 'empresas.tbl_sistema_facturacion_facturas';
     
             $DatosEmpresa = api_facturacionModel:: MdlEliminarUltConsecutivo($table, $table2, $clave);
         
@@ -1317,7 +1317,7 @@ return $archivo_XML;
 
     public static function ModificarEstadoFactura($clave){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlModificarEstadoFactura($table, $clave);
     
@@ -1328,7 +1328,7 @@ return $archivo_XML;
 
     public static function GuardarXmlFirmado($clave, $xml){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlGuardarXmlFirmado($table, $clave, $xml);
     
@@ -1339,7 +1339,7 @@ return $archivo_XML;
 
     public static function ModificarEstadoAnulacion($clave, $estadoAnulacion){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlModificarEstadoAnulacion($table, $clave, $estadoAnulacion);
     

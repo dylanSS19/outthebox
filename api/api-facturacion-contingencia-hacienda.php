@@ -3,7 +3,7 @@
 ini_set('memory_limit', '1024M');
 ini_set('user_agent', 'My-Application/2.5');
 
-$table = 'empresas.tbl_sistema_facturacion_facturas_P';
+$table = 'empresas.tbl_sistema_facturacion_facturas';
 // CARGAR DATOS DE LAS FACTURAS EN ESTADO CONTINGENCIA 
 $facturas = ClsEnviarFacturas::CargarFacturas($table);
 
@@ -16,13 +16,14 @@ for ($i = 0; $i < count($facturas); $i++) {
     // CARGAR DATOS DEL CLIENTE
     $cliente = ClsEnviarFacturas::CargarDatosCliente($table, $facturas[$i]["id_compania"]);
 
-    $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
+    $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
     // CARGAR DETALLE DE LAS FACTURAS
     $detalleFactura = ClsEnviarFacturas::CargarDetalleFacturas($table, $facturas[$i]["idtbl_sistema_facturacion_facturas"]);
 
     // FOR QUE RECORRE EL DETALLE DE LAS FACTURAS Y CREA EL NODO DETALLE FACTURA EN EL JSON
     for ($j = 0; $j < count($detalleFactura); $j++) {
-    
+
+    // SE CREA EL NODO (DETALLEFACTURA) DEL JSON
         $datosDetalleFactura .= '{							
                 "numeroLinea":"'.($j + 1) .'",
                 "cabys":"'.$detalleFactura[$j]["cabys"].'",

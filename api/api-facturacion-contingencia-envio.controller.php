@@ -3,7 +3,7 @@
     
   
 require_once ("../extensions/firmarXML/firmar.php");
-require_once  ("../models/api-facturacion-pruebas.model.php");
+require_once  ("../models/api-facturacion.model.php");
 // require_once  ("../extensions/tcpdf/pdf/comprobante_factura.php");
 require_once  ("../extensions/factura/generaFactura.php");
 
@@ -59,7 +59,7 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
 
       $datosUsario = api_facturacioncontroller::cargarDatosUsuario($contrasena, $cedula);
 
-      if($datosUsario["pin_p12_prueba"] == ""){
+      if($datosUsario["pin_p12"] == ""){
 
         header("HTTP/1.1 403 Forbidden");
 
@@ -69,15 +69,18 @@ $validacionCredenciales = api_facturacioncontroller::validarCredencialesUsuario(
       }
 
 
-            $user = $datosUsario["usuario_token_prueba"];
-            $contrasena = $datosUsario["contrasena_token_prueba"]; 
+            $user = $datosUsario["usuario_token"];
+            $contrasena = $datosUsario["contrasena_token"]; 
 
            $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
            $token = json_decode($token,true);
           //  $token = json_encode($token);
 
           
-          //  echo '<pre>'; print_r($token); echo '</pre>';
+           echo '<pre>'; print_r($token); echo '</pre>';
+           echo '<pre>'; print_r($user); echo '</pre>';
+           echo '<pre>'; print_r($contrasena); echo '</pre>';
+
     
            if(!array_key_exists('access_token', $token)){
 
@@ -154,8 +157,8 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
       =  RUTA DEL ARCHIVO P1, CONTRASEÑA Y ARCHIVO, SE FIRMA EL XML =
        =============================================*/
 
-      $pfx = $datosUsario["ruta_12_prueba"];
-      $pin = $datosUsario["pin_p12_prueba"];
+      $pfx = $datosUsario["ruta_12"];
+      $pin = $datosUsario["pin_p12"];
       $xml = $xml_factura;
       // $xml = '../apiHacienda/clientes/Heribertocastro/Documentos/documento'.$clave.'.xml';
       $ruta = "dfhjdfhj";
@@ -184,8 +187,8 @@ if ($tipo_Cedula_receptor == "" || $tipo_Cedula_receptor == "Pasaporte" || $tipo
         AUTENTIFUCACION ANTE HACIENDA               =
         =============================================*/
 
-        $user = $datosUsario["usuario_token_prueba"];
-        $contrasena = $datosUsario["contrasena_token_prueba"]; 
+        $user = $datosUsario["usuario_token"];
+        $contrasena = $datosUsario["contrasena_token"]; 
 
            $token = api_facturacioncontroller::GenerarToken($user, $contrasena);
 
@@ -321,11 +324,11 @@ class api_facturacioncontroller{
 public static function GenerarToken($user, $contrasena){
   
 
-     // $data = "client_id=api-prod&username=".$user."&password=".urlencode($contrasena)."&grant_type=password";
+     $data = "client_id=api-prod&username=".$user."&password=".urlencode($contrasena)."&grant_type=password";
 
-     $data = "client_id=api-stag&username=".$user."&password=".urlencode($contrasena)."&grant_type=password"; 
-    // $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut/protocol/openid-connect/token"); 
-   $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
+    //  $data = "client_id=api-stag&username=".$user."&password=".urlencode($contrasena)."&grant_type=password"; 
+    $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut/protocol/openid-connect/token"); 
+  //  $ch = curl_init("https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token"); //ambiente pruebas
       //$ch = curl_init("https://posfacturar.com/pos_digitalsat/public/api/v5/sale/getBillSearch");
 
 // curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -380,9 +383,9 @@ $json_factura = '{
 
 
     
-   $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion"); //ambiente sandbox
+  //  $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/recepcion"); //ambiente sandbox
 
-    // $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion/v1/recepcion");
+    $ch = curl_init("https://api.comprobanteselectronicos.go.cr/recepcion/v1/recepcion");
 
           //URL de Produccion http://wcf.facturoporti.com.mx/Timbrado/Servicios.svc/ApiTimbrarCFDI
          //curl_setopt($ch, CURLOPT_URL, "http://posfacturar.com/pos_digitalsat/public/api/v5/sale/add");
@@ -1167,7 +1170,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function GuardarDatosFactura($id_compania, $sucursal, $caja, $fecha_factura, $fecha_creacion, $cancelado, $consecutivo_hacienda, $clave_hacienda, $tipeDoc, $actividaEconomica,$condicionVenta, $cedula, $nombre , $correo , $tipoCambio, $moneda, $tipo_cedula, $plazo, $clvRefencia, $mediopago, $api, $razon, $comentarioFact){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $estado = "enviado";
     
@@ -1180,7 +1183,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
     public static function ModificarDatosFactura($TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura){
 
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
 
         $ModificarFactura = api_facturacionModel::MdlModificarDatosFactura($table, $TotalVentaNeta, $total_descuento_new, $total_impuesto_new, $otros_cargos, $TotalComprobante, $IdFactura);
@@ -1191,7 +1194,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
    public static function GuardarDetalleFactura($IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria){
 
-        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
 
         $insertDetalleFactura = api_facturacionModel::MdlInsertarDetalleFactura($table, $IdFactura, $codigo, $nombre, $cantidad, $precio_unidad, $subtotal, $descuento, $impuesto, $total, $costo, $cabys, $tasa_impuesto, $codImpuesto, $cosTasaImp, $unidadM,$categoria);
 
@@ -1199,7 +1202,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
     
     public static function Cargarultimoconsecutivo($id_empresa, $sucursal, $caja, $tipo){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $Cargarconsecutivo = api_facturacionModel:: MdlcargarUltimoConsecutivo($table, $sucursal, $caja, $tipo, $id_empresa);
 
@@ -1240,7 +1243,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function Insertarultimoconsecutivo($id_empresa, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $insertarconsecutivo = api_facturacionModel:: MdlInsertarUltimoConsecutivo($table, $id_factura, $ultimo_consecutivo, $sucursal, $caja, $random, $tipo, $id_empresa);
             
@@ -1255,7 +1258,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function Updateultimoconsecutivo($id_empresa, $id_factura, $random){
 
-        $table = 'empresas.tbl_ultimo_consecutivo_P';
+        $table = 'empresas.tbl_ultimo_consecutivo';
 
         $insertarconsecutivo = api_facturacionModel:: MdlUpdateconse($table, $id_factura, $random);
     
@@ -1267,7 +1270,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function CargarDatosFactura($clave){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $factura = api_facturacionModel:: MdlCargarDatosFactura($table, $clave);
     
@@ -1278,7 +1281,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function CargarDetalleFactura($id_factura){
 
-        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_detalle_facturas';
 
         $Detallefactura = api_facturacionModel:: MdlCargarDetalleFactura($table, $id_factura);
     
@@ -1298,7 +1301,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function EliminarDatosFactura($clave){
 
-          $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+          $table = 'empresas.tbl_sistema_facturacion_facturas';
   
           $DatosEmpresa = api_facturacionModel:: MdlEliminarDatosFactura($table, $clave);
       
@@ -1308,8 +1311,8 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function EliminarUltConsecutivo($clave){
       
-            $table = 'empresas.tbl_ultimo_consecutivo_P';
-            $table2 = 'empresas.tbl_sistema_facturacion_facturas_P';
+            $table = 'empresas.tbl_ultimo_consecutivo';
+            $table2 = 'empresas.tbl_sistema_facturacion_facturas';
     
             $DatosEmpresa = api_facturacionModel:: MdlEliminarUltConsecutivo($table, $table2, $clave);
         
@@ -1448,7 +1451,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function ModificarEstadoFactura($clave){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlModificarEstadoFactura($table, $clave);
     
@@ -1459,7 +1462,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function GuardarXmlFirmado($clave, $xml){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlGuardarXmlFirmado($table, $clave, $xml);
     
@@ -1470,7 +1473,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function ModificarEstadoAnulacion($clave, $estadoAnulacion){
 
-        $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+        $table = 'empresas.tbl_sistema_facturacion_facturas';
 
         $DatosEmpresa = api_facturacionModel::MdlModificarEstadoAnulacion($table, $clave, $estadoAnulacion);
     
@@ -1479,7 +1482,7 @@ $datosFac = api_facturacioncontroller::CargarDatosFactura($clave);
 
     public static function ModificarEstadoFacturaContingencia($clave){
 
-      $table = 'empresas.tbl_sistema_facturacion_facturas_P';
+      $table = 'empresas.tbl_sistema_facturacion_facturas';
   
       $DatosEmpresa = api_facturacionModel::MdlModificarEstadoFacturaContingencia($table, $clave);
       
